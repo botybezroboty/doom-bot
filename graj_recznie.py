@@ -23,8 +23,8 @@ def main() -> None:
     runtime_config = ROOT / "recznie_runtime.ini"
     copyfile(ROOT / "recznie.ini", runtime_config)
 
-    # Nie inicjalizuj pygame.mixer — dźwięk odtwarza silnik ViZDoom.
     pygame.display.init()
+    pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
     window = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Freedoom 2 — MAP01 — gra ręczna")
     pygame.mouse.set_visible(False)
@@ -41,7 +41,12 @@ def main() -> None:
     game.set_screen_format(vzd.ScreenFormat.RGB24)
     game.set_render_hud(True)
     game.set_render_minimal_hud(False)
+    # ViZDoom na tym komputerze nie odtwarza dźwięku przez OpenAL. Pobieramy
+    # jego próbki i odtwarzamy je przez urządzenie audio Pygame.
     game.set_sound_enabled(True)
+    game.set_audio_buffer_enabled(True)
+    game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
+    game.set_audio_buffer_size(2)
     game.set_episode_timeout(0)
     for button, maximum in (
         (vzd.Button.MOVE_FORWARD_BACKWARD_DELTA, 100),
@@ -64,6 +69,7 @@ def main() -> None:
         focused = True
         mouse_dx = 0
         mouse_dy = 0
+        audio_channel = pygame.mixer.Channel(0)
 
         while running and not game.is_episode_finished():
             for event in pygame.event.get():
@@ -105,6 +111,12 @@ def main() -> None:
             state = game.get_state()
             if state is None:
                 break
+            if state.audio_buffer is not None and state.audio_buffer.size:
+                sound = pygame.sndarray.make_sound(state.audio_buffer)
+                if audio_channel.get_busy():
+                    audio_channel.queue(sound)
+                else:
+                    audio_channel.play(sound)
             frame = state.screen_buffer.transpose(1, 0, 2)
             pygame.surfarray.blit_array(window, frame)
             pygame.display.flip()
