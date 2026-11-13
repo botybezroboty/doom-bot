@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from pathlib import Path
+from shutil import copyfile
 from time import perf_counter, sleep
 
 import vizdoom as vzd
@@ -16,11 +17,13 @@ def main() -> None:
     REPLAYS.mkdir(exist_ok=True)
     started_at = datetime.now()
     replay = REPLAYS / f"recznie_{started_at:%Y%m%d_%H%M%S}.lmp"
+    runtime_config = ROOT / "recznie_runtime.ini"
+    copyfile(ROOT / "recznie.ini", runtime_config)
 
     game = vzd.DoomGame()
     game.set_doom_game_path(str(Path(vzd.install_path) / "freedoom2.wad"))
     game.set_doom_map("MAP01")
-    game.set_doom_config_path(str(ROOT / "recznie.ini"))
+    game.set_doom_config_path(str(runtime_config))
     game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
     game.set_window_visible(True)
     game.set_screen_resolution(vzd.ScreenResolution.RES_1280X720)
