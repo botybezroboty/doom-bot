@@ -12,4 +12,15 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe bot.py
 ```
 
-Skrypt uruchamia MAP01 w oknie i zapisuje powtórkę w `powtorki/`.
+`bot.py` uruchamia prostego bota na MAP01 i zapisuje powtórkę w `powtorki/`.
+
+Tryb ręczny:
+
+```powershell
+.\.venv\Scripts\python.exe graj_recznie.py
+```
+
+W trybie ręcznym sterujesz w oknie ViZDoom: **WASD** — ruch, **mysz** — obrót,
+**lewy przycisk myszy** — strzał, **E** lub **spacja** — użyj, **Shift** — bieg.
+Czas od startu MAP01 do wyjścia dopisywany jest do `wyniki.md`; każda próba ma
+powtórkę w `powtorki/`. Próba zakończona śmiercią nie jest liczona jako wynik.
