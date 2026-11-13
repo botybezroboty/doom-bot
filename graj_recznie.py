@@ -3,7 +3,7 @@
 from datetime import datetime
 from pathlib import Path
 from shutil import copyfile
-from time import perf_counter, sleep
+from time import perf_counter
 
 import vizdoom as vzd
 
@@ -24,7 +24,7 @@ def main() -> None:
     game.set_doom_game_path(str(Path(vzd.install_path) / "freedoom2.wad"))
     game.set_doom_map("MAP01")
     game.set_doom_config_path(str(runtime_config))
-    game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
+    game.set_mode(vzd.Mode.SPECTATOR)
     game.set_window_visible(True)
     game.set_screen_resolution(vzd.ScreenResolution.RES_1280X720)
     game.set_sound_enabled(True)
@@ -38,7 +38,7 @@ def main() -> None:
         print("Start! Graj klawiaturą i myszą. Czas kończy się po użyciu wyjścia.")
 
         while not game.is_episode_finished():
-            sleep(0.01)
+            game.advance_action()
 
         elapsed = perf_counter() - start
         deaths = game.get_game_variable(vzd.GameVariable.DEATHCOUNT)
