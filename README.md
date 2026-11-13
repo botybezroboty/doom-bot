@@ -20,7 +20,8 @@ Tryb ręczny:
 .\.venv\Scripts\python.exe graj_recznie.py
 ```
 
-W trybie ręcznym sterujesz w oknie ViZDoom: **WASD** — ruch, **mysz** — obrót,
+W trybie ręcznym sterujesz w oknie gry: **WASD** — ruch, **mysz** — obrót,
 **lewy przycisk myszy** — strzał, **E** lub **spacja** — użyj, **Shift** — bieg.
-Czas od startu MAP01 do wyjścia dopisywany jest do `wyniki.md`; każda próba ma
-powtórkę w `powtorki/`. Próba zakończona śmiercią nie jest liczona jako wynik.
+Kursor jest ukryty tylko w oknie gry; kursor pulpitu pozostaje normalny. Czas od
+startu MAP01 do wyjścia dopisywany jest do `wyniki.md`; każda próba ma powtórkę
+w `powtorki/`. Próba zakończona śmiercią nie jest liczona jako wynik.
