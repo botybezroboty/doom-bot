@@ -102,7 +102,7 @@ def main() -> None:
             state = game.get_state()
             if state is None:
                 break
-            frame = state.screen_buffer.transpose(2, 1, 0)
+            frame = state.screen_buffer.transpose(1, 0, 2)
             pygame.surfarray.blit_array(window, frame)
             pygame.display.flip()
 
