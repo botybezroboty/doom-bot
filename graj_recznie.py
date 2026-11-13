@@ -23,7 +23,9 @@ def main() -> None:
     runtime_config = ROOT / "recznie_runtime.ini"
     copyfile(ROOT / "recznie.ini", runtime_config)
 
-    pygame.init()
+    # Nie inicjalizuj pygame.mixer — dźwięk odtwarza silnik ViZDoom.
+    pygame.display.init()
+    pygame.event.init()
     window = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Freedoom 2 — MAP01 — gra ręczna")
     pygame.mouse.set_visible(False)
