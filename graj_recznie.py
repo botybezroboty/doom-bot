@@ -38,6 +38,8 @@ def main() -> None:
     game.set_window_visible(False)
     game.set_screen_resolution(vzd.ScreenResolution.RES_1280X720)
     game.set_screen_format(vzd.ScreenFormat.RGB24)
+    game.set_render_hud(True)
+    game.set_render_minimal_hud(False)
     game.set_sound_enabled(True)
     game.set_episode_timeout(0)
     for button, maximum in (
