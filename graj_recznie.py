@@ -23,6 +23,7 @@ def main() -> None:
     game.set_doom_config_path(str(ROOT / "recznie.ini"))
     game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
     game.set_window_visible(True)
+    game.set_screen_resolution(vzd.ScreenResolution.RES_1280X720)
     game.set_sound_enabled(True)
     game.set_episode_timeout(0)
     game.set_available_game_variables([vzd.GameVariable.DEATHCOUNT])
