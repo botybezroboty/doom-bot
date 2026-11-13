@@ -23,11 +23,10 @@ def main() -> None:
     game.set_available_buttons(
         [vzd.Button.MOVE_FORWARD, vzd.Button.TURN_LEFT, vzd.Button.TURN_RIGHT, vzd.Button.ATTACK]
     )
-    game.set_recording_episode_path(str(replay))
     game.init()
 
     try:
-        game.new_episode()
+        game.new_episode(str(replay))
         tick = 0
         while not game.is_episode_finished():
             # Prosty patrol: strzelaj i zmieniaj kierunek co kilka sekund.
