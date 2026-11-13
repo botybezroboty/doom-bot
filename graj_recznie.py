@@ -15,8 +15,8 @@ REPLAYS = ROOT / "powtorki"
 RESULTS = ROOT / "wyniki.md"
 USER32 = ctypes.WinDLL("user32", use_last_error=True)
 FRAME_TIME = 1 / 35
-OCR_NORMAL = 32512
-SPI_SETCURSORS = 0x0057
+GCLP_HCURSOR = -12
+WM_SETCURSOR = 0x0020
 USER32.CreateCursor.argtypes = [
     wintypes.HINSTANCE,
     ctypes.c_int,
@@ -31,8 +31,12 @@ USER32.SetSystemCursor.argtypes = [wintypes.HANDLE, wintypes.DWORD]
 USER32.SetSystemCursor.restype = wintypes.BOOL
 USER32.DestroyCursor.argtypes = [wintypes.HANDLE]
 USER32.DestroyCursor.restype = wintypes.BOOL
-USER32.SystemParametersInfoW.argtypes = [wintypes.UINT, wintypes.UINT, wintypes.LPVOID, wintypes.UINT]
-USER32.SystemParametersInfoW.restype = wintypes.BOOL
+USER32.GetClassLongPtrW.argtypes = [wintypes.HWND, ctypes.c_int]
+USER32.GetClassLongPtrW.restype = wintypes.HANDLE
+USER32.SetClassLongPtrW.argtypes = [wintypes.HWND, ctypes.c_int, wintypes.HANDLE]
+USER32.SetClassLongPtrW.restype = wintypes.HANDLE
+USER32.SendMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
+USER32.SendMessageW.restype = wintypes.LPARAM
 
 
 def _is_pressed(virtual_key: int) -> bool:
@@ -65,27 +69,34 @@ def _mouse_center(hwnd: int) -> tuple[int, int]:
     return (rect.left + rect.right) // 2, (rect.top + rect.bottom) // 2
 
 
-def _hide_system_arrow() -> None:
-    """Zastąp strzałkę przezroczystym kursorem; przywracanie jest osobne."""
+def _hide_window_cursor(hwnd: int) -> tuple[int | None, int] | None:
+    """Ustaw przezroczysty kursor wyłącznie dla klasy okna ViZDoom."""
     and_mask = (ctypes.c_ubyte * 2)(0xFF, 0xFF)
     xor_mask = (ctypes.c_ubyte * 2)(0, 0)
     cursor = USER32.CreateCursor(None, 0, 0, 1, 1, and_mask, xor_mask)
-    if not cursor or not USER32.SetSystemCursor(cursor, OCR_NORMAL):
-        if cursor:
-            USER32.DestroyCursor(cursor)
-        raise ctypes.WinError(ctypes.get_last_error())
+    if not cursor:
+        return None
+    previous = USER32.GetClassLongPtrW(hwnd, GCLP_HCURSOR)
+    USER32.SetClassLongPtrW(hwnd, GCLP_HCURSOR, cursor)
+    if USER32.GetClassLongPtrW(hwnd, GCLP_HCURSOR) != cursor:
+        USER32.DestroyCursor(cursor)
+        return None
+    USER32.SendMessageW(hwnd, WM_SETCURSOR, hwnd, 1)
+    return previous, cursor
 
 
-def _restore_system_cursors() -> None:
-    if not USER32.SystemParametersInfoW(SPI_SETCURSORS, 0, None, 0):
-        raise ctypes.WinError(ctypes.get_last_error())
+def _restore_window_cursor(hwnd: int, state: tuple[int | None, int]) -> None:
+    previous, blank = state
+    USER32.SetClassLongPtrW(hwnd, GCLP_HCURSOR, previous)
+    USER32.SendMessageW(hwnd, WM_SETCURSOR, hwnd, 1)
+    USER32.DestroyCursor(blank)
 
 
 def _action(dx: int, dy: int) -> list[float]:
     forward = 100 if _is_pressed(0x57) else -100 if _is_pressed(0x53) else 0  # W / S
     strafe = -100 if _is_pressed(0x41) else 100 if _is_pressed(0x44) else 0  # A / D
     turn = max(-30, min(30, dx * 0.25))
-    look = max(-30, min(30, dy * 0.25))
+    look = max(-30, min(30, -dy * 0.25))
     attack = int(_is_pressed(0x01))  # lewy przycisk myszy
     use = int(_is_pressed(0x45) or _is_pressed(0x20))  # E / spacja
     run = int(_is_pressed(0x10))  # Shift
@@ -122,7 +133,8 @@ def main() -> None:
     game.init()
 
     original_cursor = None
-    system_cursor_hidden = False
+    hwnd = None
+    window_cursor = None
     try:
         game.new_episode(str(replay))
         hwnd = _find_game_window()
@@ -131,24 +143,21 @@ def main() -> None:
         center = _mouse_center(hwnd)
         USER32.SetForegroundWindow(hwnd)
         USER32.SetCursorPos(*center)
+        window_cursor = _hide_window_cursor(hwnd)
+        if window_cursor is None:
+            print("Nie udało się ukryć kursora tylko w oknie gry; kursor systemowy pozostaje bez zmian.")
         print("Sterowanie: WASD, mysz, LPM — strzał, E/spacja — użyj, Shift — bieg.")
 
         start = perf_counter()
         last_frame = start
         while not game.is_episode_finished():
             if USER32.GetForegroundWindow() == hwnd:
-                if not system_cursor_hidden:
-                    _hide_system_arrow()
-                    system_cursor_hidden = True
                 cursor = wintypes.POINT()
                 USER32.GetCursorPos(ctypes.byref(cursor))
                 dx, dy = cursor.x - center[0], cursor.y - center[1]
                 USER32.SetCursorPos(*center)
                 game.make_action(_action(dx, dy), 1)
             else:
-                if system_cursor_hidden:
-                    _restore_system_cursors()
-                    system_cursor_hidden = False
                 game.make_action([0, 0, 0, 0, 0, 0, 0], 1)
             last_frame += FRAME_TIME
             sleep(max(0, last_frame - perf_counter()))
@@ -157,8 +166,8 @@ def main() -> None:
         deaths = game.get_game_variable(vzd.GameVariable.DEATHCOUNT)
         finished_at = datetime.now()
     finally:
-        if system_cursor_hidden:
-            _restore_system_cursors()
+        if hwnd is not None and window_cursor is not None:
+            _restore_window_cursor(hwnd, window_cursor)
         if original_cursor is not None:
             USER32.SetCursorPos(original_cursor.x, original_cursor.y)
         game.close()
