@@ -46,6 +46,11 @@ przechowywane w Git. Wideo używa kodeka H.264 i formatu kolorów yuv420p.
 .\.venv\Scripts\python.exe defend_the_center.py --trials 100
 ```
 
+Porównanie aktualnego bota z dawną serią 100 wyników z `porownanie.csv`
+można uruchomić poleceniem `.\.venv\Scripts\python.exe porownaj_demony.py`.
+Skrypt wymaga zachowanych dawnych powtórek i zapisuje
+wyniki par w `porownanie_demony.csv`.
+
 Tryb ręczny:
 
 ```powershell

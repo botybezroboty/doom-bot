@@ -2,6 +2,35 @@
 
 ## Analiza najgorszej próby defend_the_center
 
+**Sprostowanie:** wcześniejsza analiza poniżej pominęła demona. Dziennik
+zawiera etykietę `Demon` o identyfikatorze 7 już w tiku 75; około tiku 88
+znajdował się przy środku obrazu, a bot dalej obracał się w prawo. Ten sam
+obiekt ponownie pojawił się przy prawej krawędzi w tikach 268–271, przed
+śmiercią w tiku 272. Kod uwzględniał tylko `MarineChainsawVzd` i ignorował
+demony. Dziennik nie identyfikuje źródła ostatniego obrażenia.
+
+## Porównanie po poprawce rozpoznawania demonów
+
+Na tych samych 100 seedach porównano zapisaną wcześniej serię starego bota
+z nową serią. Nowy bot rozpoznaje `Demon` i daje mu pierwszeństwo przed
+`MarineChainsawVzd`. Seedy sprawdzono w nagłówkach wszystkich 200 powtórek;
+nowa seria ma 100 różnych odcisków obrazów. Każda nowa gra ma powtórkę,
+dziennik i wideo. Dane par są w `porownanie_demony.csv`.
+
+| Wynik | Stary bot | Nowy bot |
+|---|---:|---:|
+| Średnio zabitych | 8,63 | 10,01 |
+| Średni czas (tiki) | 536,92 | 663,46 |
+| Zakres zabitych | 5–11 | 8–12 |
+
+Na 74 seedach nowy bot zabił więcej, na 16 tyle samo, a na 10 mniej.
+Wszystkie 100 nowych gier skończyło się ze zdrowiem poniżej lub równym 0.
+Na seedzie 146 wynik wzrósł z 5 do 10 zabitych, a czas z 272 do 948 tików.
+Powtórka, dziennik i wideo z nowej serii mają nazwę bazową
+`center_etykiety_146_20261114_184151_031660` w `powtorki/`.
+
+## Wcześniejsza analiza próby (przed sprostowaniem)
+
 W poprzednich 100 próbach bota celującego minimum to 5 zabitych (dwa razy).
 Jako najgorszą wybrano krótszą z nich: seed wejściowy 146, 272 tiki.
 Ponowne uruchomienie tego seeda dało ten sam wynik: 5 zabitych, śmierć
