@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import os
 import random
 from datetime import datetime
 from pathlib import Path
+
+os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 import vizdoom as vzd
 
@@ -14,7 +17,8 @@ ROOT = Path(__file__).resolve().parent
 REPLAYS = ROOT / "powtorki"
 SCENARIO = Path(vzd.scenarios_path) / "defend_the_center.cfg"
 FRAME_WIDTH = 320
-ACTION_TICS = 4
+ACTION_TICS = 1
+TARGET_LABEL = "MarineChainsawVzd"
 
 
 def choose_action(game: vzd.DoomGame, rng: random.Random, random_bot: bool) -> list[int]:
@@ -24,29 +28,41 @@ def choose_action(game: vzd.DoomGame, rng: random.Random, random_bot: bool) -> l
     else:
         state = game.get_state()
         labels = state.labels if state is not None and state.labels else []
-        # Środek widocznego prostokąta etykiety to jedyna informacja o celu.
-        targets = [label.x + label.width / 2 for label in labels if label.width > 0]
+        # Celujemy tylko w etykietę przeciwnika, pomijając gracza, krew i efekty.
+        targets = [
+            label.x + label.width / 2
+            for label in labels
+            if label.object_name == TARGET_LABEL and label.width > 0
+        ]
         if targets:
-            target_x = sum(targets) / len(targets)
-            margin = 5
-            turn = 1 if target_x < FRAME_WIDTH / 2 - margin else (
-                2 if target_x > FRAME_WIDTH / 2 + margin else 0
-            )
+            # Najpierw śledź najbliższy środkowi cel; obrót o jeden tic ogranicza
+            # przeskakiwanie nad nim przy dużej prędkości obrotu Dooma.
+            target_x = min(targets, key=lambda x: abs(x - FRAME_WIDTH / 2))
+            error = target_x - FRAME_WIDTH / 2
+            turn = 1 if error < -9 else (2 if error > 9 else 0)
         else:
-            turn = rng.choice((1, 2))
+            turn = 2
 
     return [int(turn == 1), int(turn == 2), 1]
 
 
-def run_episode(seed: int, random_bot: bool) -> tuple[float, int]:
+def run_episode(seed: int, random_bot: bool) -> tuple[int, int, float, int]:
     REPLAYS.mkdir(exist_ok=True)
     started = datetime.now()
     kind = "losowy" if random_bot else "etykiety"
     replay = REPLAYS / f"center_{kind}_{seed:03d}_{started:%Y%m%d_%H%M%S_%f}.lmp"
     game = vzd.DoomGame()
+    game.set_window_visible(False)
     game.load_config(str(SCENARIO))
+    game.set_mode(vzd.Mode.ASYNC_PLAYER)
+    game.set_ticrate(1000)
+    game.set_render_all_frames(False)
     game.set_window_visible(False)
     game.set_labels_buffer_enabled(True)
+    # Liczniki służą wyłącznie do raportowania wyniku; bot podejmuje decyzje
+    # tylko na podstawie etykiet ekranowych w choose_action().
+    game.add_available_game_variable(vzd.GameVariable.KILLCOUNT)
+    game.add_available_game_variable(vzd.GameVariable.DEATHCOUNT)
     game.set_seed(seed)
     game.init()
     rng = random.Random(seed)
@@ -54,7 +70,12 @@ def run_episode(seed: int, random_bot: bool) -> tuple[float, int]:
         game.new_episode(str(replay).replace("\\", "/"))
         while not game.is_episode_finished():
             game.make_action(choose_action(game, rng, random_bot), ACTION_TICS)
-        result = game.get_total_reward(), game.get_episode_time()
+        result = (
+            int(game.get_game_variable(vzd.GameVariable.KILLCOUNT)),
+            int(game.get_game_variable(vzd.GameVariable.DEATHCOUNT)),
+            game.get_total_reward(),
+            game.get_episode_time(),
+        )
     finally:
         game.close()
     if not replay.exists():
@@ -71,15 +92,22 @@ def main() -> None:
         parser.error("--trials musi być dodatnie")
 
     for random_bot in (False, True):
+        kills: list[int] = []
+        deaths: list[int] = []
         rewards: list[float] = []
         times: list[int] = []
         for seed in range(args.trials):
-            reward, elapsed = run_episode(seed, random_bot)
+            kill_count, death_count, reward, elapsed = run_episode(seed, random_bot)
+            kills.append(kill_count)
+            deaths.append(death_count)
             rewards.append(reward)
             times.append(elapsed)
             print(f"{'Losowy' if random_bot else 'Etykiety'} {seed + 1}/{args.trials}: "
-                  f"nagroda {reward:.1f}, czas gry {elapsed} tics", flush=True)
+                  f"zabite {kill_count}, zgony {death_count}, nagroda {reward:.1f}, "
+                  f"czas gry {elapsed} tics", flush=True)
         print(f"Podsumowanie {'losowy' if random_bot else 'etykiety'}: "
+              f"średnio zabite {sum(kills) / len(kills):.2f}, "
+              f"średnio zgony {sum(deaths) / len(deaths):.2f}, "
               f"średnia nagroda {sum(rewards) / len(rewards):.2f}, "
               f"średni czas {sum(times) / len(times):.1f} tics", flush=True)
 
