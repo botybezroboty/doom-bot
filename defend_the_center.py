@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import csv
+import hashlib
 import os
 import random
+
+import numpy as np
 from datetime import datetime
 from pathlib import Path
 
@@ -69,7 +73,7 @@ def create_game() -> vzd.DoomGame:
 
 def run_episode(
     game: vzd.DoomGame, seed: int, deaths_before: int, random_bot: bool
-) -> tuple[tuple[int, int, float, int], Path]:
+) -> tuple[tuple[int, int, float, int], Path, str]:
     REPLAYS.mkdir(exist_ok=True)
     started = datetime.now()
     kind = "losowy" if random_bot else "etykiety"
@@ -77,7 +81,10 @@ def run_episode(
     game.set_seed(seed)
     rng = random.Random(seed)
     game.new_episode(str(replay).replace("\\", "/"))
+    fingerprint = hashlib.sha256()
     while not game.is_episode_finished():
+        state = game.get_state()
+        fingerprint.update(state.screen_buffer.tobytes())
         action, duration = choose_action(game, rng, random_bot)
         game.make_action(action, duration)
     result = (
@@ -86,7 +93,7 @@ def run_episode(
         game.get_total_reward(),
         game.get_episode_time(),
     )
-    return result, replay
+    return result, replay, fingerprint.hexdigest()
 
 
 def main() -> None:
@@ -96,6 +103,19 @@ def main() -> None:
     if args.trials < 1:
         parser.error("--trials musi być dodatnie")
 
+    # ViZDoom używa MT19937 do wyznaczenia seeda silnika. W Windows
+    # wartości powyżej INT_MAX są obcinane do INT_MAX przez silnik.
+    seeds = []
+    used_doom_seeds = set()
+    candidate = 0
+    while len(seeds) < args.trials:
+        doom_seed = int(np.random.RandomState(candidate).randint(0, 2**32, dtype=np.uint32))
+        if 0 < doom_seed < 2**31 - 1 and doom_seed not in used_doom_seeds:
+            seeds.append((candidate, doom_seed))
+            used_doom_seeds.add(doom_seed)
+        candidate += 1
+
+    rows = []
     for random_bot in (False, True):
         kills: list[int] = []
         deaths: list[int] = []
@@ -105,8 +125,8 @@ def main() -> None:
         pending_replay: Path | None = None
         deaths_before = 0
         try:
-            for seed in range(args.trials):
-                (kill_count, death_count, reward, elapsed), replay = run_episode(
+            for trial, (seed, doom_seed) in enumerate(seeds, 1):
+                (kill_count, death_count, reward, elapsed), replay, fingerprint = run_episode(
                     game, seed, deaths_before, random_bot
                 )
                 deaths_before += death_count
@@ -115,11 +135,13 @@ def main() -> None:
                         raise RuntimeError(f"ViZDoom nie zapisał powtórki: {pending_replay}")
                     print(f"Powtórka zapisana: {pending_replay.name}", flush=True)
                 pending_replay = replay
+                rows.append(["losowy" if random_bot else "etykiety", seed, doom_seed, kill_count,
+                             death_count, reward, elapsed, replay.name, fingerprint])
                 kills.append(kill_count)
                 deaths.append(death_count)
                 rewards.append(reward)
                 times.append(elapsed)
-                print(f"{'Losowy' if random_bot else 'Etykiety'} {seed + 1}/{args.trials}: "
+                print(f"{'Losowy' if random_bot else 'Etykiety'} {trial}/{args.trials}: "
                       f"zabite {kill_count}, zgony {death_count}, nagroda {reward:.1f}, "
                       f"czas gry {elapsed} tics", flush=True)
         finally:
@@ -128,11 +150,28 @@ def main() -> None:
             if not pending_replay.exists():
                 raise RuntimeError(f"ViZDoom nie zapisał powtórki: {pending_replay}")
             print(f"Powtórka zapisana: {pending_replay.name}", flush=True)
+        fingerprints = [row[-1] for row in rows if row[0] == ("losowy" if random_bot else "etykiety")]
+        if len(set(fingerprints)) != len(fingerprints):
+            raise RuntimeError("Wykryto identyczne przebiegi: porównanie przerwane")
         print(f"Podsumowanie {'losowy' if random_bot else 'etykiety'}: "
               f"średnio zabite {sum(kills) / len(kills):.2f}, "
               f"średnio zgony {sum(deaths) / len(deaths):.2f}, "
               f"średnia nagroda {sum(rewards) / len(rewards):.2f}, "
               f"średni czas {sum(times) / len(times):.1f} tics", flush=True)
+
+    for row in rows:
+        replay_path = REPLAYS / row[-2]
+        data = replay_path.read_bytes()
+        if data[:4] != b"FORM" or data[8:16] != b"ZDEMZDHD":
+            raise RuntimeError(f"Nieznany format powtórki: {replay_path}")
+        map_end = data.index(b"\0", 24) + 1
+        recorded_seed = int.from_bytes(data[map_end:map_end + 4], "big")
+        if recorded_seed != row[2]:
+            raise RuntimeError(f"Nieprawidłowy seed w powtórce: {replay_path}")
+    with (ROOT / "porownanie.csv").open("w", encoding="utf-8", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["bot", "seed", "seed_silnika", "zabite", "zgony", "nagroda", "tiki", "powtorka", "sha256_obrazow"])
+        writer.writerows(rows)
 
 
 if __name__ == "__main__":

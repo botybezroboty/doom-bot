@@ -25,7 +25,10 @@ py -3.12 -m venv .venv
 
 `defend_the_center.py` porównuje bota celującego po ekranowych etykietach
 obiektów z botem losowym. Oba grają bez okna, dostają ten sam zestaw seedów,
-a każda próba zapisuje powtórkę do `powtorki/`. Skrypt wymusza sterownik SDL
+a każda próba zapisuje powtórkę do `powtorki/`. Skrypt dobiera seedy tak, aby
+uniknąć ograniczenia wartości seeda silnika na Windows, sprawdza seed zapisany
+w każdej powtórce i zapisuje szczegóły wraz z odciskami obrazów w `porownanie.csv`.
+Skrypt wymusza sterownik SDL
 `dummy` i utrzymuje jedną ukrytą instancję gry na całą serię, dzięki czemu okno
 nie jest otwierane ponownie między próbami.
 
