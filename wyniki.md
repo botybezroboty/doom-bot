@@ -4,9 +4,9 @@
 
 # defend_the_center — porównanie botów
 
-100 prób na bot, bez okna; oba boty użyły seedów 0–99. Czas oznacza liczbę ticów
-do końca epizodu, a nagroda jest wartością zwróconą przez ViZDoom. Każda próba
-ma powtórkę w `powtorki/`.
+100 prób na bot, bez okna; oba boty użyły seedów 0–99. Zapisano 200 powtórek.
+Czas oznacza liczbę ticów do końca epizodu, a nagroda jest wartością zwróconą
+przez ViZDoom.
 
 | Bot | Próby | Średnia nagroda | Średni czas (tiki) |
 |---|---:|---:|---:|
