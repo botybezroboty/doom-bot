@@ -1,5 +1,24 @@
 # Wyniki gry ręcznej
 
+## Wydajność defend_the_center
+
+Na Windows, ViZDoom 1.3.2, zmierzono trzy próby bota etykietowego
+(seedy 1, 2 i 5), łącznie 1820 tików. Czas obejmuje zapis powtórek,
+dzienników i wideo oraz zamknięcie gry, ale nie inicjalizację. Przed zmianą
+trwały 28,25 s (64,4 tiku/s); pomiar poszczególnych wywołań wykazał,
+że `advance_action` zajęło 27,33 s. Po żądaniu dokładności zegara Windows
+1 ms na czas rozgrywki te same próby trwały 3,74 s (486 tików/s), czyli
+około 7,5 razy krócej. Pozostałe czasy obejmują też zapis i obsługę gry;
+pomiar nie rozdziela obliczeń silnika od oczekiwania w `advance_action`.
+
+Po zmianie powtórzono serię 100 seedów bota etykietowego: 66346 tików
+w 125,26 s (529,7 tiku/s). We wszystkich próbach liczby zabitych, zgony,
+nagrody, czasy i odciski obrazów odpowiadały poprzedniej serii
+`porownanie_demony.csv` (zgony i nagrody sprawdzono na podstawie jej opisu
+oraz liczby zabitych). Pięć prób bota losowego porównano bezpośrednio przed
+zmianą dokładności zegara i po niej: wyniki i odciski obrazów były identyczne,
+a seedy sprawdzono w powtórkach. Wyniki wydajności zależą od komputera.
+
 ## Analiza najgorszej próby defend_the_center
 
 **Sprostowanie:** wcześniejsza analiza poniżej pominęła demona. Dziennik

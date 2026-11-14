@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import argparse
+import ctypes
 import csv
 import hashlib
 import json
 import os
 import random
+import sys
+from contextlib import contextmanager
 
 import numpy as np
 from datetime import datetime
@@ -25,6 +28,21 @@ SCENARIO = Path(vzd.scenarios_path) / "defend_the_center.cfg"
 FRAME_WIDTH = 320
 SEARCH_TICS = 4
 TARGET_LABELS = {"MarineChainsawVzd", "Demon"}
+
+
+@contextmanager
+def dokladny_zegar():
+    """Ogranicza opóźnienie oczekiwania ViZDoom na Windows podczas gry."""
+    if sys.platform != "win32":
+        yield
+        return
+    winmm = ctypes.WinDLL("winmm")
+    if winmm.timeBeginPeriod(1) != 0:
+        raise OSError("Nie udało się ustawić dokładności zegara Windows")
+    try:
+        yield
+    finally:
+        winmm.timeEndPeriod(1)
 
 
 def choose_action(
@@ -76,6 +94,7 @@ def create_game() -> vzd.DoomGame:
     return game
 
 
+@dokladny_zegar()
 def run_episode(
     game: vzd.DoomGame, seed: int, deaths_before: int, random_bot: bool
 ) -> tuple[tuple[int, int, float, int], Path, str]:

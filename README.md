@@ -41,6 +41,9 @@ widoczne etykiety z pozycją i rozmiarem oraz akcję `[lewo, prawo, strzał]`.
 `pozostale_tiki_akcji` obejmuje bieżący tik. Obraz w MP4 pokazuje te same
 klatki; wiersz `koniec` zapisuje stan końcowy. Nagrania i dzienniki nie są
 przechowywane w Git. Wideo używa kodeka H.264 i formatu kolorów yuv420p.
+Na Windows skrypt na czas każdej rozgrywki zwiększa dokładność zegara do 1 ms,
+co skraca oczekiwanie ViZDoom; po zakończeniu gry przywraca poprzednie żądanie
+dokładności. Wyniki pomiaru i porównania przebiegów znajdują się w `wyniki.md`.
 
 ```powershell
 .\.venv\Scripts\python.exe defend_the_center.py --trials 100
