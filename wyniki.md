@@ -1,5 +1,32 @@
 # Wyniki gry ręcznej
 
+## Ograniczenie strzelania w defend_the_center
+
+Porównano serię z `porownanie_demony.csv` z nową na tych samych 100 seedach.
+Bot naciska strzał, gdy środek obrazu znajduje się w obrysie wybranego celu;
+podczas poszukiwania nie naciska strzału. Seedy obu serii sprawdzono
+w nagłówkach 200 powtórek. Dane par są w `porownanie_amunicji.csv`, a każda
+nowa gra ma powtórkę, dziennik i wideo w `powtorki/`.
+
+| Wynik | Przed zmianą | Po zmianie |
+|---|---:|---:|
+| Średnio zabitych | 10,01 | 11,06 |
+| Średni czas (tiki) | 663,46 | 711,75 |
+| Średnio zużytych nabojów | 26,00 | 15,78 |
+| Średnio zużytych poza obrysem celu | 17,32 | 4,46 |
+| Gry z wyczerpaną amunicją | 100 | 18 |
+
+Przed zmianą amunicja kończyła się w każdej grze w tiku 371 (10,6 s).
+Po zmianie w 18 grach skończyła się między tikami 756 a 1328, średnio
+w tiku 938,6. Nowy bot zabił więcej na 48 seedach, tyle samo na 6,
+a mniej na 46; zakres wyników wzrósł z 8–12 do 1–23.
+
+Zużycie to suma spadków licznika amunicji między kolejnymi stanami.
+„Poza obrysem” oznacza brak rozpoznanej etykiety przeciwnika obejmującej
+środek ekranu w stanie bezpośrednio przed spadkiem licznika. To przybliżenie,
+nie liczba rzeczywistych chybień: dziennik nie zawiera trafień, a animacja
+broni i ruch celu mogą przesuwać moment zużycia względem decyzji o strzale.
+
 ## Wydajność defend_the_center
 
 Na Windows, ViZDoom 1.3.2, zmierzono trzy próby bota etykietowego

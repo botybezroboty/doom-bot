@@ -52,6 +52,7 @@ def choose_action(
     if random_bot:
         turn = rng.choice((0, 1, 2))  # bez skrętu, w lewo, w prawo
         duration = SEARCH_TICS
+        shoot = True
     else:
         state = game.get_state()
         labels = state.labels if state is not None and state.labels else []
@@ -70,11 +71,13 @@ def choose_action(
             error = target_x - FRAME_WIDTH / 2
             turn = 1 if error < -9 else (2 if error > 9 else 0)
             duration = 1 if abs(error) < 40 else (2 if abs(error) < 90 else SEARCH_TICS)
+            shoot = target.x <= FRAME_WIDTH / 2 < target.x + target.width
         else:
             turn = 2
             duration = SEARCH_TICS
+            shoot = False
 
-    return [int(turn == 1), int(turn == 2), 1], duration
+    return [int(turn == 1), int(turn == 2), int(shoot)], duration
 
 
 def create_game() -> vzd.DoomGame:
