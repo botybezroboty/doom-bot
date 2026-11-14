@@ -1,5 +1,9 @@
 """Ręczna gra Freedoom 2 MAP01 z pomiarem czasu ukończenia."""
 
+if __name__ == '__main__':
+    from ukryte_okno import uruchom_na_ukrytym_pulpicie
+    uruchom_na_ukrytym_pulpicie()
+
 from datetime import datetime
 from pathlib import Path
 from shutil import copyfile
@@ -22,6 +26,8 @@ def main() -> None:
     runtime_config = ROOT / "recznie_runtime.ini"
     copyfile(ROOT / "recznie.ini", runtime_config)
 
+    from ukryte_okno import pokaz_okno_reczne
+    pokaz_okno_reczne()
     pygame.display.init()
     pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
     window = pygame.display.set_mode((WIDTH, HEIGHT))

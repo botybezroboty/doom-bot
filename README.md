@@ -13,6 +13,10 @@ rozgrywkę w `powtorki/`, a po każdym działającym kroku robimy commit po pols
 
 Wymagany Python 3.10+ x64 na Windows.
 
+Na Windows skrypty uruchamiają silnik na osobnym pulpicie, aby jego okno
+startowe nie pojawiało się na ekranie. W trybie ręcznym okno sterowania
+Pygame nadal jest wyświetlane na zwykłym pulpicie.
+
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt

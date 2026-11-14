@@ -182,3 +182,17 @@ silnika większe od 2147483647 były ograniczane do 2147483647. Na przykład
 w teście diagnostycznym seedy 0, 3 i 4 dały identyczną powtórkę i wynik
 9 zabitych / 462 tiki. Poprawiony skrypt dobiera seedy bez tego przepełnienia,
 a rzeczywisty seed weryfikuje w nagłówku powtórki.
+# Okno startowe ViZDoom (2026-11-14)
+
+Monitor zdarzeń okien Windows wykrył przed zmianą dwukrotne wyświetlenie
+`ViZDoomMainWindow` przez `vizdoom.exe` na pulpicie Default. Po przeniesieniu
+procesu skryptu i silnika na osobny pulpit nie wykrył tam okna silnika
+podczas MAP01, obu botów defend_the_center ani próby ręcznej. Okno Pygame
+gry ręcznej pojawiło się na widocznym pulpicie; próbę przerwano, zapisując
+powtórkę. Monitor obserwował zdarzenia systemowe, nie jest nagraniem ekranu.
+
+Porównanie przed i po dla seeda 1: MAP01 zakończyła się wyjściem w 601 tikach
+z 74 punktami życia, a całe dzienniki JSONL były identyczne. W defend_the_center
+bot celujący uzyskał 21 zabójstw, 1 zgon, nagrodę 20 i 1013 tików, a losowy
+1 zabójstwo, 1 zgon, nagrodę 0 i 432 tiki; odciski obrazów też były identyczne.
+To porównanie jednego seeda, nie wszystkich możliwych gier.

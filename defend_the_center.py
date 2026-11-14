@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+if __name__ == '__main__':
+    from ukryte_okno import uruchom_na_ukrytym_pulpicie
+    uruchom_na_ukrytym_pulpicie()
+
 import argparse
 import ctypes
 import csv

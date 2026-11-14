@@ -1,4 +1,8 @@
 """Porównaj bieżącego bota z serią z porownanie_demony.csv."""
+
+if __name__ == '__main__':
+    from ukryte_okno import uruchom_na_ukrytym_pulpicie
+    uruchom_na_ukrytym_pulpicie()
 import csv
 import json
 from pathlib import Path

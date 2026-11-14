@@ -1,4 +1,8 @@
 """Nawigacja po znanej MAP01 na podstawie pozycji gracza."""
+
+if __name__ == '__main__':
+    from ukryte_okno import uruchom_na_ukrytym_pulpicie
+    uruchom_na_ukrytym_pulpicie()
 import argparse
 import json
 import math
@@ -34,6 +38,7 @@ def run(seed):
     folder.mkdir(exist_ok=True)
     path = folder / f'map01_{seed}_{datetime.now():%Y%m%d_%H%M%S_%f}'
     game = vzd.DoomGame()
+
     game.set_doom_game_path(str(Path(vzd.install_path) / 'freedoom2.wad'))
     game.set_doom_map('MAP01')
     game.set_doom_skill(3)
@@ -87,11 +92,3 @@ if __name__ == '__main__':
     parser.add_argument('seeds', nargs='+', type=int)
     for seed in parser.parse_args().seeds:
         run(seed)
-
-
-
-
-
-
-
-

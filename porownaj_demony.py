@@ -1,4 +1,8 @@
 """Porównaj aktualnego bota z zapisaną serią starego bota na tych samych seedach."""
+
+if __name__ == '__main__':
+    from ukryte_okno import uruchom_na_ukrytym_pulpicie
+    uruchom_na_ukrytym_pulpicie()
 import csv
 from defend_the_center import ROOT, create_game, run_episode
 
