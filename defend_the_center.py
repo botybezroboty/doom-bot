@@ -24,7 +24,7 @@ REPLAYS = ROOT / "powtorki"
 SCENARIO = Path(vzd.scenarios_path) / "defend_the_center.cfg"
 FRAME_WIDTH = 320
 SEARCH_TICS = 4
-TARGET_LABEL = "MarineChainsawVzd"
+TARGET_LABELS = {"MarineChainsawVzd", "Demon"}
 
 
 def choose_action(
@@ -37,16 +37,18 @@ def choose_action(
     else:
         state = game.get_state()
         labels = state.labels if state is not None and state.labels else []
-        # Celujemy tylko w etykietę przeciwnika, pomijając gracza, krew i efekty.
+        # Demony walczą z bliska, więc trzeba je zatrzymać przed pozostałymi.
         targets = [
-            label.x + label.width / 2
+            label
             for label in labels
-            if label.object_name == TARGET_LABEL and label.width > 0
+            if label.object_name in TARGET_LABELS and label.width > 0
         ]
         if targets:
-            # Najpierw śledź najbliższy środkowi cel; obrót o jeden tic ogranicza
-            # przeskakiwanie nad nim przy dużej prędkości obrotu Dooma.
-            target_x = min(targets, key=lambda x: abs(x - FRAME_WIDTH / 2))
+            target = min(targets, key=lambda label: (
+                label.object_name != "Demon",
+                abs(label.x + label.width / 2 - FRAME_WIDTH / 2),
+            ))
+            target_x = target.x + target.width / 2
             error = target_x - FRAME_WIDTH / 2
             turn = 1 if error < -9 else (2 if error > 9 else 0)
             duration = 1 if abs(error) < 40 else (2 if abs(error) < 90 else SEARCH_TICS)
