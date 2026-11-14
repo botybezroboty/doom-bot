@@ -23,7 +23,16 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe bot.py 1 5
 ```
 
-`bot.py` uruchamia bota na MAP01 dla podanych seedów. Każda próba ma w `powtorki/` powtórkę LMP, wideo MP4 i dziennik JSONL. Bot steruje się po bieżącej pozycji i kierunku, korzystając z punktów znanej mapy. Ustawia poziom trudności 3; poziom historycznych gier ręcznych jest nieznany. Wyniki i ograniczenia znajdują się w `wyniki.md`. Seedy powodujące obcięcie wartości silnika są odrzucane.
+`bot.py` uruchamia bota na MAP01 dla podanych seedów. Każda próba ma w `powtorki/` powtórkę LMP, wideo MP4 i dziennik JSONL. Bot steruje się po bieżącej pozycji i kierunku, korzystając z punktów znanej mapy; celuje w widocznych przeciwników i zbiera przedmioty na trasie. Wideo pokazuje pełny HUD. Ustawia poziom trudności 3; poziom historycznych gier ręcznych jest nieznany. Wyniki i ograniczenia znajdują się w `wyniki.md`. Seedy powodujące obcięcie wartości silnika są odrzucane.
+
+## Porównanie na MAP01
+
+`.\.venv\Scripts\python.exe porownaj_map01.py` uruchamia po 20 prób obu
+wersji na tych samych różnych seedach silnika i zapisuje `porownanie_map01.csv`.
+Opcja `--tylko-nowy` zachowuje w tabeli wcześniejsze wyniki starej wersji
+oraz ponawia 20 prób nowej. Polecenie nadpisuje CSV; nagrania mają unikalne
+nazwy. Wariant `bot.py --wersja stary 1 5` uruchamia dawną nawigację.
+Szczegółowy wynik porównania znajduje się w `wyniki.md`.
 
 ## Scenariusz defend_the_center
 

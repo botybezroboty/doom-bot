@@ -87,6 +87,7 @@ def run(seed, version="nowy"):
         with path.with_suffix('.jsonl').open('w', encoding='utf-8') as log:
             log.write(json.dumps({'typ':'start', 'seed':seed, 'seed_silnika':engine_seed, 'trudnosc':3, 'wersja':version, 'trasa':route})+'\n')
             waypoint = 0
+            waypoint_since = 0
             elapsed = 0
             history = deque(maxlen=60)
             escape = 0
@@ -96,8 +97,13 @@ def run(seed, version="nowy"):
                     state = game.get_state()
                     x, y, angle, health, armor, ammo, kills = state.game_variables
                     tick = game.get_episode_time()
-                    if waypoint < len(route)-1 and math.hypot(x-route[waypoint][0], y-route[waypoint][1]) < (35 if version == "stary" else 22):
+                    if waypoint < len(route)-1 and math.hypot(x-route[waypoint][0], y-route[waypoint][1]) < 35:
                         waypoint += 1
+                        waypoint_since = elapsed
+                    # Apteczka jest opcjonalna, gdy nie da się do niej dotrzeć.
+                    if version == 'nowy' and waypoint == 10 and elapsed - waypoint_since > 250:
+                        waypoint += 1
+                        waypoint_since = elapsed
                     target = route[waypoint]
                     if version == 'nowy':
                         history.append((x, y))

@@ -1,5 +1,39 @@
 # Wyniki gry ręcznej
 
+## Walka i znajdźki — porównanie 20 seedów
+
+ViZDoom 1.3.2, dołączony Freedoom 2 MAP01, trudność 3, limit 3500 tików.
+Ta sama lista 20 różnych seedów silnika dla obu wersji. Stara wersja biegnie
+do wyjścia, nowa celuje w widocznych przeciwników, zbiera przedmioty na trasie
+i próbuje ominąć miejsce utknięcia. Czas obejmuje całą próbę, także w razie
+zgonu. Wszystkie ukończenia nowej wersji trwały mniej niż 3027 tików.
+
+| Wersja | Wyjścia | Zgony | Limit | Tiki wyjść: średnia (zakres) | Tiki zgonów: średnia (zakres) |
+|---|---:|---:|---:|---:|---:|
+| Stara | 8 | 12 | 0 | 622 (589–697) | 708,2 (440–995) |
+| Nowa | 14 | 6 | 0 | 1813 (1501–2101) | 909,2 (328–2006) |
+
+W [porownanie_map01.csv](porownanie_map01.csv) jest każda para wyników, czas,
+seed wejściowy i silnika oraz nazwa powtórki. Każda próba ma w `powtorki/`
+plik LMP, film MP4 z pełnym HUD i dziennik JSONL. Sprawdzono istnienie
+wszystkich 40 kompletów, seed w każdym nagłówku i zgodność dzienników z CSV;
+trzy przykładowe ukończenia obu wersji odtworzono i potwierdzono ich czas oraz
+brak zgonu. W dziennikach nowej serii odnotowano łącznie 220 zabójstw,
+wzrost pancerza w 20 grach, życia w 8 i amunicji wybranej broni w 19.
+W czterech grach przyrost życia wyniósł co najmniej 10 punktów. Pozostałe
+wzrosty licznika obejmują również drobne bonusy oraz ewentualne zmiany broni,
+nie są niezależnym potwierdzeniem każdego rodzaju podniesionego przedmiotu.
+
+Pierwsza wersja reguł walki na tych samych seedach ukończyła 13 gier,
+zginęła 2 razy i 5 razy osiągnęła limit; czas ukończeń 1537–3061 tików.
+Jej dane zachowano w `porownanie_map01_pierwsze.csv`. Po zauważeniu zacięć
+przy apteczce poprawiono reguły i ponownie uruchomiono wszystkie 20 nowych
+prób; wyniki starej wersji pozostały te same. Historyczny poziom trudności
+gier ręcznych jest nieznany, więc porównanie z rekordem człowieka ma to
+zastrzeżenie. Części tych seedów użyto do poprawiania reguł, więc nie jest to niezależna
+próba sprawdzająca; wyniki nie gwarantują przeżycia na innych seedach.
+
+
 ## Pierwsze przejścia bota MAP01
 
 ViZDoom 1.3.2, dołączony Freedoom 2, MAP01, poziom 3. Bot bez strzelania
