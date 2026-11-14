@@ -76,8 +76,8 @@ def run(seed, version="nowy"):
     game.set_render_minimal_hud(False)
     game.set_labels_buffer_enabled(True)
     game.set_episode_timeout(3500)
-    game.set_available_buttons([vzd.Button.MOVE_FORWARD_BACKWARD_DELTA, vzd.Button.TURN_LEFT_RIGHT_DELTA, vzd.Button.SPEED, vzd.Button.USE, vzd.Button.ATTACK])
-    game.set_available_game_variables([vzd.GameVariable.POSITION_X, vzd.GameVariable.POSITION_Y, vzd.GameVariable.ANGLE, vzd.GameVariable.HEALTH, vzd.GameVariable.ARMOR, vzd.GameVariable.SELECTED_WEAPON_AMMO, vzd.GameVariable.KILLCOUNT])
+    game.set_available_buttons([vzd.Button.MOVE_FORWARD_BACKWARD_DELTA, vzd.Button.TURN_LEFT_RIGHT_DELTA, vzd.Button.SPEED, vzd.Button.USE, vzd.Button.ATTACK, vzd.Button.SELECT_WEAPON3])
+    game.set_available_game_variables([vzd.GameVariable.POSITION_X, vzd.GameVariable.POSITION_Y, vzd.GameVariable.ANGLE, vzd.GameVariable.HEALTH, vzd.GameVariable.ARMOR, vzd.GameVariable.SELECTED_WEAPON_AMMO, vzd.GameVariable.KILLCOUNT, vzd.GameVariable.WEAPON3, vzd.GameVariable.AMMO3, vzd.GameVariable.SELECTED_WEAPON])
     game.init()
     game.set_seed(seed)
     video = None
@@ -95,7 +95,7 @@ def run(seed, version="nowy"):
             with dokladny_zegar():
                 while not game.is_episode_finished() and not game.is_player_dead():
                     state = game.get_state()
-                    x, y, angle, health, armor, ammo, kills = state.game_variables
+                    x, y, angle, health, armor, ammo, kills, shotgun, shells, weapon = state.game_variables
                     tick = game.get_episode_time()
                     if waypoint < len(route)-1 and math.hypot(x-route[waypoint][0], y-route[waypoint][1]) < 35:
                         waypoint += 1
@@ -121,8 +121,25 @@ def run(seed, version="nowy"):
                     found = combat(state) if version == 'nowy' else None
                     if found:
                         cmd = found[0]
+                    elif version == 'nowy' and waypoint >= len(route) - 2 and 180 <= x <= 252 and -715 <= y <= -642:
+                        # Nie celuj w punkt za sobą: zatrzymaj się i patrz na przełącznik.
+                        error = (90 - angle + 180) % 360 - 180
+                        cmd = [0, max(-15, min(15, -error)), 1,
+                               int(abs(error) < 15 and tick % 2 == 0), 0]
+                    elif version == 'nowy' and not shotgun:
+                        # Wyłącznie obiekty widoczne na ekranie, bez pozycji aktorów.
+                        guns = [a for a in state.labels if a.object_name == 'Shotgun'
+                                and a.width > 0 and (state.labels_buffer == a.value).any()]
+                        if guns:
+                            gun = min(guns, key=lambda a: abs(a.x + a.width / 2 - 160) / max(1, a.width))
+                            error = gun.x + gun.width / 2 - 160
+                            if abs(error) < 100:
+                                cmd = [100 if abs(error) < 35 else 0,
+                                       max(-12, min(12, error * 0.18)), 1, 0, 0]
+                    # Wybór jest dozwolony, gdy HUD pokazuje broń i amunicję.
+                    cmd.append(int(version == 'nowy' and shotgun and shells > 0 and weapon != 3))
                     video.write(state.screen_buffer)
-                    log.write(json.dumps({'typ':'tik','tik':tick,'x':x,'y':y,'kat':angle,'cel':waypoint,'zycie':health,'pancerz':armor,'amunicja':ammo,'zabite':kills,'akcja':cmd, 'widoczni':[{'nazwa':a.object_name,'x':a.x,'szerokosc':a.width} for a in state.labels if a.object_name in MONSTERS and (state.labels_buffer == a.value).any()]})+'\n')
+                    log.write(json.dumps({'typ':'tik','tik':tick,'x':x,'y':y,'kat':angle,'cel':waypoint,'zycie':health,'pancerz':armor,'amunicja':ammo,'zabite':kills,'strzelba':shotgun,'naboje_strzelby':shells,'bron':weapon,'akcja':cmd, 'widoczni':[{'nazwa':a.object_name,'x':a.x,'szerokosc':a.width} for a in state.labels if a.object_name in MONSTERS and (state.labels_buffer == a.value).any()]})+'\n')
                     game.make_action(cmd, 1)
                     elapsed += 1
             dead = game.is_player_dead() or game.get_game_variable(vzd.GameVariable.HEALTH) <= 0
