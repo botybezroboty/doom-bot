@@ -25,6 +25,22 @@ py -3.12 -m venv .venv
 
 `bot.py` uruchamia bota na MAP01 dla podanych seedów. Każda próba ma w `powtorki/` powtórkę LMP, wideo MP4 i dziennik JSONL. Bot steruje się po bieżącej pozycji i kierunku, korzystając z punktów znanej mapy; celuje w widocznych przeciwników i zbiera przedmioty na trasie. Wideo pokazuje pełny HUD. Ustawia poziom trudności 3; poziom historycznych gier ręcznych jest nieznany. Wyniki i ograniczenia znajdują się w `wyniki.md`. Seedy powodujące obcięcie wartości silnika są odrzucane.
 
+## Jeden test całości
+
+```powershell
+.\.venv\Scripts\python.exe sprawdz_wszystko.py
+```
+
+Polecenie uruchamia testy celowania i 20 par gier `defend_the_center` oraz
+20 prób MAP01. Dobiera nowe seedy, pomijając seedy zachowanych powtórek i
+wcześniejszych tabel MAP01; przy kolejnym uruchomieniu dobiera kolejne nowe.
+Podaje wyniki i medianę ukończonych przejść. Każde zgłoszone przejście
+odtwarza oraz sprawdza użycie przełącznika, czas i brak zgonu. Wyniki są w
+`dowod_center.csv` i `dowod_map01.csv` (pliki są nadpisywane), a najlepszy
+film dostaje w `powtorki/` nazwę `najlepsza_map01_...mp4`. Jeśli nie ma
+ukończenia, mediana i najlepszy film nie są podawane. Każda próba ma też
+własną powtórkę, film i dziennik.
+
 ## Porównanie na MAP01
 
 `.\.venv\Scripts\python.exe porownaj_map01.py` uruchamia po 20 prób obu

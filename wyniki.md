@@ -1,5 +1,29 @@
 # Wyniki gry ręcznej
 
+## Niezależna seria — jedno polecenie
+
+Po zatwierdzeniu bota w commicie `d3f2f06` uruchomiono
+`.\.venv\Scripts\python.exe sprawdz_wszystko.py`. Przed rozpoczęciem
+dobrano 20 różnych seedów silnika, których nie było w zachowanych wcześniejszych
+powtórkach i tabelach; ich lista oraz wyniki są w `dowod_map01.csv`. Bot nie
+był poprawiany na podstawie tej serii. ViZDoom 1.3.2, dołączony Freedoom 2
+MAP01, poziom 3, limit 3500 tików.
+
+MAP01: **16 ukończeń, 4 zgony i 0 limitów**. Mediana 16 ukończonych prób:
+**1867 tików**, najlepsza 1525; wszystkie ukończenia były poniżej 3027 tików.
+Każde z 16 ukończeń osobno odtworzono i sprawdzono liczbę tików, brak śmierci
+i użycie przełącznika wyjścia tuż przed końcem. ViZDoom nie dostarcza w tym
+skrypcie osobnego sygnału wyjścia; potwierdzenie wynika z tych przesłanek.
+Najlepsze wideo: `powtorki/najlepsza_map01_20261114_222152_565722.mp4`;
+jego kopię sprawdzono przez SHA-256 z filmem źródłowym. Dane nie dowodzą
+równego poziomu trudności z historyczną grą człowieka, bo tam go nie zapisano.
+
+W `defend_the_center` przeszły cztery testy celowania, a na tych samych
+20 parach seedów bot celujący zabił średnio **22,65** przeciwnika, losowy
+**1,55**. Szczegóły, seedy, czasy i nazwy nagrań są w `dowod_center.csv`.
+Wszystkie 60 rozgrywek zapisano jako powtórki, dzienniki i filmy.
+
+
 ## Walka i znajdźki — porównanie 20 seedów
 
 ViZDoom 1.3.2, dołączony Freedoom 2 MAP01, trudność 3, limit 3500 tików.
