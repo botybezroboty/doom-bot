@@ -3,7 +3,6 @@
 from datetime import datetime
 from pathlib import Path
 from shutil import copyfile
-from time import perf_counter
 
 import pygame
 import vizdoom as vzd
@@ -63,7 +62,7 @@ def main() -> None:
     try:
         game.init()
         game.new_episode(str(replay))
-        start = perf_counter()
+        tics = 0
         print("WASD: ruch, mysz: obrót, LPM: strzał, E/spacja: użyj, Shift: bieg.")
         running = True
         focused = True
@@ -122,9 +121,10 @@ def main() -> None:
             pygame.display.flip()
 
             game.make_action([forward, strafe, turn, look, attack, use, run], 1)
+            tics += 1
             clock.tick(FPS)
 
-        elapsed = perf_counter() - start
+        finished = game.is_episode_finished()
         deaths = game.get_game_variable(vzd.GameVariable.DEATHCOUNT)
         finished_at = datetime.now()
     finally:
@@ -136,6 +136,9 @@ def main() -> None:
     if not running:
         print(f"Próba przerwana. Powtórka: {replay}")
         return
+    if not finished:
+        print(f"Nie potwierdzono zakończenia gry. Powtórka: {replay}")
+        return
     if deaths:
         print(f"Gra zakończona bez wyjścia (zgonów: {int(deaths)}). Powtórka: {replay}")
         return
@@ -145,11 +148,11 @@ def main() -> None:
         RESULTS.write_text("# Wyniki gry ręcznej\n\n", encoding="utf-8")
     with RESULTS.open("a", encoding="utf-8") as results:
         results.write(
-            f"- {started_at:%Y-%m-%d %H:%M} — MAP01: **{elapsed:.2f} s** "
+            f"- {started_at:%Y-%m-%d %H:%M} — MAP01: **{tics} tików** ({tics / 35:.2f} s czasu gry) "
             f"(ukończono {finished_at:%H:%M}); powtórka: `{replay.name}`\n"
         )
 
-    print(f"Ukończono MAP01 w {elapsed:.2f} s. Wynik: {RESULTS}")
+    print(f"Ukończono MAP01 w {tics} tikach ({tics / 35:.2f} s czasu gry). Wynik: {RESULTS}")
     print(f"Powtórka: {replay}")
 
 

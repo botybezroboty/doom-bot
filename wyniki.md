@@ -1,6 +1,8 @@
 # Wyniki gry ręcznej
-- 2026-11-13 21:37 — MAP01: **105.45 s** (ukończono 21:39); powtórka: `recznie_20261113_213739.lmp`
-- 2026-11-13 21:45 — MAP01: **85.88 s** (ukończono 21:46); powtórka: `recznie_20261113_214524.lmp`
+- 2026-11-13 21:37 — MAP01: **3720 tików** (106,29 s czasu gry); dawny pomiar zegarowy 105,45 s; powtórka: `recznie_20261113_213739.lmp`
+- 2026-11-13 21:45 — MAP01: **3027 tików** (86,49 s czasu gry); dawny pomiar zegarowy 85,88 s; powtórka: `recznie_20261113_214524.lmp`
+
+Czasy odczytano przez odtworzenie powtórek w ViZDoom 1.3.2 na Freedoom 2 MAP01, zliczając jednokrokowe `advance_action` do końca. Obie zakończyły się bez śmierci; brak osobnego sygnału wyjścia w archiwalnym zapisie, więc kwalifikacja opiera się także na ówczesnym opisie ukończenia. Poziom trudności i seed pierwotnych prób nie zostały udokumentowane.
 
 # defend_the_center — poprawione porównanie (2026-11-14)
 
