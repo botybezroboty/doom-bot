@@ -51,11 +51,7 @@ def choose_action(
     return [int(turn == 1), int(turn == 2), 1], duration
 
 
-def run_episode(seed: int, random_bot: bool) -> tuple[int, int, float, int]:
-    REPLAYS.mkdir(exist_ok=True)
-    started = datetime.now()
-    kind = "losowy" if random_bot else "etykiety"
-    replay = REPLAYS / f"center_{kind}_{seed:03d}_{started:%Y%m%d_%H%M%S_%f}.lmp"
+def create_game() -> vzd.DoomGame:
     game = vzd.DoomGame()
     game.set_window_visible(False)
     game.load_config(str(SCENARIO))
@@ -67,26 +63,30 @@ def run_episode(seed: int, random_bot: bool) -> tuple[int, int, float, int]:
     # tylko na podstawie etykiet ekranowych w choose_action().
     game.add_available_game_variable(vzd.GameVariable.KILLCOUNT)
     game.add_available_game_variable(vzd.GameVariable.DEATHCOUNT)
-    game.set_seed(seed)
     game.init()
+    return game
+
+
+def run_episode(
+    game: vzd.DoomGame, seed: int, deaths_before: int, random_bot: bool
+) -> tuple[tuple[int, int, float, int], Path]:
+    REPLAYS.mkdir(exist_ok=True)
+    started = datetime.now()
+    kind = "losowy" if random_bot else "etykiety"
+    replay = REPLAYS / f"center_{kind}_{seed:03d}_{started:%Y%m%d_%H%M%S_%f}.lmp"
+    game.set_seed(seed)
     rng = random.Random(seed)
-    try:
-        game.new_episode(str(replay).replace("\\", "/"))
-        while not game.is_episode_finished():
-            action, duration = choose_action(game, rng, random_bot)
-            game.make_action(action, duration)
-        result = (
-            int(game.get_game_variable(vzd.GameVariable.KILLCOUNT)),
-            int(game.get_game_variable(vzd.GameVariable.DEATHCOUNT)),
-            game.get_total_reward(),
-            game.get_episode_time(),
-        )
-    finally:
-        game.close()
-    if not replay.exists():
-        raise RuntimeError(f"ViZDoom nie zapisał powtórki: {replay}")
-    print(f"Powtórka zapisana: {replay.name}", flush=True)
-    return result
+    game.new_episode(str(replay).replace("\\", "/"))
+    while not game.is_episode_finished():
+        action, duration = choose_action(game, rng, random_bot)
+        game.make_action(action, duration)
+    result = (
+        int(game.get_game_variable(vzd.GameVariable.KILLCOUNT)),
+        int(game.get_game_variable(vzd.GameVariable.DEATHCOUNT)) - deaths_before,
+        game.get_total_reward(),
+        game.get_episode_time(),
+    )
+    return result, replay
 
 
 def main() -> None:
@@ -101,15 +101,33 @@ def main() -> None:
         deaths: list[int] = []
         rewards: list[float] = []
         times: list[int] = []
-        for seed in range(args.trials):
-            kill_count, death_count, reward, elapsed = run_episode(seed, random_bot)
-            kills.append(kill_count)
-            deaths.append(death_count)
-            rewards.append(reward)
-            times.append(elapsed)
-            print(f"{'Losowy' if random_bot else 'Etykiety'} {seed + 1}/{args.trials}: "
-                  f"zabite {kill_count}, zgony {death_count}, nagroda {reward:.1f}, "
-                  f"czas gry {elapsed} tics", flush=True)
+        game = create_game()
+        pending_replay: Path | None = None
+        deaths_before = 0
+        try:
+            for seed in range(args.trials):
+                (kill_count, death_count, reward, elapsed), replay = run_episode(
+                    game, seed, deaths_before, random_bot
+                )
+                deaths_before += death_count
+                if pending_replay is not None:
+                    if not pending_replay.exists():
+                        raise RuntimeError(f"ViZDoom nie zapisał powtórki: {pending_replay}")
+                    print(f"Powtórka zapisana: {pending_replay.name}", flush=True)
+                pending_replay = replay
+                kills.append(kill_count)
+                deaths.append(death_count)
+                rewards.append(reward)
+                times.append(elapsed)
+                print(f"{'Losowy' if random_bot else 'Etykiety'} {seed + 1}/{args.trials}: "
+                      f"zabite {kill_count}, zgony {death_count}, nagroda {reward:.1f}, "
+                      f"czas gry {elapsed} tics", flush=True)
+        finally:
+            game.close()
+        if pending_replay is not None:
+            if not pending_replay.exists():
+                raise RuntimeError(f"ViZDoom nie zapisał powtórki: {pending_replay}")
+            print(f"Powtórka zapisana: {pending_replay.name}", flush=True)
         print(f"Podsumowanie {'losowy' if random_bot else 'etykiety'}: "
               f"średnio zabite {sum(kills) / len(kills):.2f}, "
               f"średnio zgony {sum(deaths) / len(deaths):.2f}, "
