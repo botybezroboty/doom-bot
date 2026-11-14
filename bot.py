@@ -92,6 +92,9 @@ def run(seed, version="nowy"):
             history = deque(maxlen=60)
             escape = 0
             escape_side = 1
+            gun_chase = 0
+            gun_origin = None
+            gun_cooldown = 0
             with dokladny_zegar():
                 while not game.is_episode_finished() and not game.is_player_dead():
                     state = game.get_state()
@@ -117,25 +120,38 @@ def run(seed, version="nowy"):
                             target = (x - escape_side * dy / norm * 100,
                                       y + escape_side * dx / norm * 100)
                             escape -= 1
+                    if version == 'nowy' and waypoint >= len(route) - 2 and -715 <= y <= -642 and (x < 200 or x > 232):
+                        target = (216, -705)
                     cmd = action(x,y,angle,target,tick) + [0]
+                    if gun_cooldown:
+                        gun_cooldown -= 1
                     found = combat(state) if version == 'nowy' else None
                     if found:
                         cmd = found[0]
-                    elif version == 'nowy' and waypoint >= len(route) - 2 and 180 <= x <= 252 and -715 <= y <= -642:
+                    elif version == 'nowy' and waypoint >= len(route) - 2 and 200 <= x <= 232 and -690 <= y <= -642:
                         # Nie celuj w punkt za sobą: zatrzymaj się i patrz na przełącznik.
                         error = (90 - angle + 180) % 360 - 180
                         cmd = [0, max(-15, min(15, -error)), 1,
                                int(abs(error) < 15 and tick % 2 == 0), 0]
-                    elif version == 'nowy' and not shotgun:
+                    elif version == 'nowy' and waypoint < len(route) - 2 and not shotgun and not gun_cooldown and not escape:
                         # Wyłącznie obiekty widoczne na ekranie, bez pozycji aktorów.
                         guns = [a for a in state.labels if a.object_name == 'Shotgun'
                                 and a.width > 0 and (state.labels_buffer == a.value).any()]
                         if guns:
                             gun = min(guns, key=lambda a: abs(a.x + a.width / 2 - 160) / max(1, a.width))
                             error = gun.x + gun.width / 2 - 160
-                            if abs(error) < 100:
-                                cmd = [100 if abs(error) < 35 else 0,
-                                       max(-12, min(12, error * 0.18)), 1, 0, 0]
+                            if abs(error) < 80 and gun.y + gun.height > 110:
+                                if gun_chase == 0:
+                                    gun_origin = (x, y)
+                                gun_chase += 1
+                                if gun_chase >= 70 and math.dist(gun_origin, (x, y)) < 60:
+                                    gun_cooldown = 210
+                                    gun_chase = 0
+                                else:
+                                    if gun_chase >= 70:
+                                        gun_chase = 0
+                                    cmd = [100 if abs(error) < 35 else 0,
+                                           max(-12, min(12, error * 0.18)), 1, 0, 0]
                     # Wybór jest dozwolony, gdy HUD pokazuje broń i amunicję.
                     cmd.append(int(version == 'nowy' and shotgun and shells > 0 and weapon != 3))
                     video.write(state.screen_buffer)

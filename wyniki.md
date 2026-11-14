@@ -1,5 +1,55 @@
 # Wyniki gry ręcznej
 
+## Strzelba i przełącznik — porównanie przed i po
+
+Użytkownik wskazał najlepszą próbę z seeda 1002. Jej dziennik nie zapisywał
+broni, więc odtworzono LMP: bot ani razu nie posiadał strzelby. Odtworzenie z
+ekranowymi etykietami pokazuje widoczną strzelbę. Od wskazania ostatniego
+punktu trasy do zakończenia w starej próbie minęło 147 tików; po drodze bot
+wielokrotnie mijał punkt i zawracał. W końcowej wersji bot na tym seedzie
+podniósł i wybrał strzelbę, a ten odcinek trwał 38 tików. Cała próba trwała
+1595 tików wobec wcześniejszych 1525 — zbieranie broni może wydłużyć trasę.
+Nagranie po zmianie: `map01_nowy_1002_20261114_225129_916306.mp4`.
+
+Bot próbuje podnieść widoczną strzelbę, gdy jej nie ma, wybiera ją przy
+posiadaniu nabojów i rezygnuje z długiego pościgu, jeśli nie robi postępu.
+Przy wyjściu ustawia się przed przełącznikiem, podchodzi w jego zasięg i
+używa go. Stan broni w próbach obu wersji odczytano z odtwarzanych powtórek;
+każde zgłoszone wyjście również sprawdzono przez odtworzenie, brak zgonu i
+użycie przy przełączniku. ViZDoom nie daje tu osobnego sygnału wyjścia.
+
+| Seedy (po 20) | Wersja | Wyjścia | Zgony | Limit | Mediana ukończeń | Strzelba zdobyta / wybrana | Mediana ostatniego odcinka |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Z dowodu | Przed | 16 | 4 | 0 | 1867 | 9 / 9 | 150,5 |
+| Z dowodu | Po | 15 | 5 | 0 | 1711 | 16 / 16 | 38 |
+| Kolejne | Przed | 18 | 2 | 0 | 1867 | 13 / 13 | 198,5 |
+| Kolejne | Po | 18 | 2 | 0 | 1641 | 17 / 17 | 37 |
+| Kontrolne | Przed | 16 | 4 | 0 | 1777 | 10 / 10 | 118 |
+| Kontrolne | Po | 14 | 4 | 2 | 1886 | 18 / 18 | 38 |
+
+Tiki ostatniego odcinka to czas od pierwszego wybrania ostatniego punktu trasy
+do wyjścia; obejmują także ewentualną walkę. Mediany liczą tylko ukończenia,
+dlatego różniące się liczby ukończeń ograniczają bezpośrednie porównanie.
+Wszystkie ukończenia były poniżej 3027 tików. Strzelba oznacza posiadanie
+broni w dowolnej chwili, a wybór — jej aktywowanie w dowolnej chwili, nie
+koniecznie oddanie strzału. Na kontrolnych seedach 1084 i 1098 nowa wersja
+osiągnęła limit 3500 tików po utknięciu na wcześniejszej części trasy, podczas
+gdy stara ukończyła obie próby. Poprawka nie zapewnia więc niezawodności i w
+serii kontrolnej pogorszyła odsetek ukończeń.
+
+Seria „z dowodu” zawiera te same 20 seedów co `dowod_map01.csv`. Kolejne 20
+wybrano przed próbami; po pierwszym porównaniu użyto seeda 1042 do poprawy
+zasięgu wyjścia, więc nie jest to niezależny test końcowej wersji. Następnie
+zamrożono dodatkowe 20 nowych seedów kontrolnych, których nie użyto do strojenia.
+Poprzednie rezultaty zachowano w `porownanie_strzelba_etap.csv`, końcowe pary
+w `porownanie_strzelba_final.csv`, a listy w `seedy_strzelba.json` i
+`seedy_strzelba_kontrolne.json`. We wszystkich 120 pozycjach końcowej tabeli
+sprawdzono komplet LMP/MP4/JSONL i seed w LMP. Stara wersja dla pierwszych 40
+pozycji pochodzi z zachowanych wcześniejszych powtórek; w pozostałych parach
+gry uruchomiono ponownie. Środowisko: ViZDoom 1.3.2, Freedoom 2 MAP01,
+trudność 3; trudność historycznej gry ręcznej pozostaje nieznana.
+
+
 ## Niezależna seria — jedno polecenie
 
 Po zatwierdzeniu bota w commicie `d3f2f06` uruchomiono

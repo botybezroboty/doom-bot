@@ -23,7 +23,7 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe bot.py 1 5
 ```
 
-`bot.py` uruchamia bota na MAP01 dla podanych seedów. Każda próba ma w `powtorki/` powtórkę LMP, wideo MP4 i dziennik JSONL. Bot steruje się po bieżącej pozycji i kierunku, korzystając z punktów znanej mapy; celuje w widocznych przeciwników i zbiera przedmioty na trasie. Wideo pokazuje pełny HUD. Ustawia poziom trudności 3; poziom historycznych gier ręcznych jest nieznany. Wyniki i ograniczenia znajdują się w `wyniki.md`. Seedy powodujące obcięcie wartości silnika są odrzucane.
+`bot.py` uruchamia bota na MAP01 dla podanych seedów. Każda próba ma w `powtorki/` powtórkę LMP, wideo MP4 i dziennik JSONL. Bot steruje się po bieżącej pozycji i kierunku, korzystając z punktów znanej mapy; celuje w widocznych przeciwników, próbuje zebrać widoczną strzelbę i wybiera ją, gdy ma naboje, oraz zbiera inne przedmioty na trasie. Wideo pokazuje pełny HUD. Ustawia poziom trudności 3; poziom historycznych gier ręcznych jest nieznany. Wyniki i ograniczenia znajdują się w `wyniki.md`. Seedy powodujące obcięcie wartości silnika są odrzucane.
 
 ## Jeden test całości
 
@@ -40,6 +40,16 @@ odtwarza oraz sprawdza użycie przełącznika, czas i brak zgonu. Wyniki są w
 film dostaje w `powtorki/` nazwę `najlepsza_map01_...mp4`. Jeśli nie ma
 ukończenia, mediana i najlepszy film nie są podawane. Każda próba ma też
 własną powtórkę, film i dziennik.
+
+## Porównanie strzelby i wyjścia
+
+Wyniki prób opisano w `wyniki.md`, a szczegóły par w
+`porownanie_strzelba_final.csv`. `bot_przed_poprawka.py` zachowuje wcześniejszą
+wersję do odtworzenia porównania. `porownaj_strzelbe.py` uruchamia obie wersje
+na seedach z `dowod_map01.csv` i ustalonych w `seedy_strzelba.json`;
+`porownaj_strzelbe_final.py` korzysta z zachowanego etapu porównania, ponawia
+nową wersję i dobiera kolejną serię kontrolną. Skrypty nadpisują swoje pliki
+wynikowe, lecz powtórki mają unikalne nazwy.
 
 ## Porównanie na MAP01
 
