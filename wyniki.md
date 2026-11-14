@@ -1,5 +1,25 @@
 # Wyniki gry ręcznej
 
+## Pierwsze przejścia bota MAP01
+
+ViZDoom 1.3.2, dołączony Freedoom 2, MAP01, poziom 3. Bot bez strzelania
+prowadzi nawigację według własnej pozycji i kierunku oraz znanych punktów mapy.
+Odtworzenie powtórek potwierdziło wyjście bez zgonu po **601 tikach**:
+
+| Seed wejściowy | Seed silnika | Życie na końcu | Powtórka |
+|---:|---:|---:|---|
+| 1 | 1791095845 | 74 | `map01_1_20261114_201857_193071.lmp` |
+| 5 | 953453411 | 31 | `map01_5_20261114_201900_368210.lmp` |
+
+Obok powtórek są filmy MP4 i dzienniki JSONL. Pierwsze serie i późniejsze
+próby obejmują łącznie 36 gier: 8 zakończeń i 28 zgonów; część zakończeń
+powtarza ten sam seed silnika, więc nie jest niezależnym wynikiem. Ostatnia
+seria miała 5 prób (4 wyjścia, 1 zgon), ale dwa seedy zostały obcięte do
+tej samej wartości silnika. Kod teraz odrzuca takie seedy. Poziom trudności
+historycznego rekordu człowieka 3027 tików jest nieznany, więc uczciwego
+porównania trudności nie potwierdzono. Bot nie jest jeszcze niezawodny.
+
+
 ## Poprawka zatrzymywania celownika
 
 Najgorsza gra poprzedniej wersji: seed wejściowy 210, jeden zabity,

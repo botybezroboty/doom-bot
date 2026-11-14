@@ -16,10 +16,10 @@ Wymagany Python 3.10+ x64 na Windows.
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe bot.py
+.\.venv\Scripts\python.exe bot.py 1 5
 ```
 
-`bot.py` uruchamia prostego bota na MAP01 i zapisuje powtórkę w `powtorki/`.
+`bot.py` uruchamia bota na MAP01 dla podanych seedów. Każda próba ma w `powtorki/` powtórkę LMP, wideo MP4 i dziennik JSONL. Bot steruje się po bieżącej pozycji i kierunku, korzystając z punktów znanej mapy. Ustawia poziom trudności 3; poziom historycznych gier ręcznych jest nieznany. Wyniki i ograniczenia znajdują się w `wyniki.md`. Seedy powodujące obcięcie wartości silnika są odrzucane.
 
 ## Scenariusz defend_the_center
 
