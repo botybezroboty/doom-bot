@@ -4,3 +4,5 @@ __pycache__/
 _vizdoom.ini
 recznie_runtime.ini
 powtorki/*.lmp
+powtorki/*.jsonl
+powtorki/*.avi

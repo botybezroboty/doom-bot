@@ -1,4 +1,21 @@
 # Wyniki gry ręcznej
+
+## Analiza najgorszej próby defend_the_center
+
+W poprzednich 100 próbach bota celującego minimum to 5 zabitych (dwa razy).
+Jako najgorszą wybrano krótszą z nich: seed wejściowy 146, 272 tiki.
+Ponowne uruchomienie tego seeda dało ten sam wynik: 5 zabitych, śmierć
+w 272. tiku i 8 pocisków na końcu. Powtórka, dziennik i wideo nowej próby:
+`center_etykiety_146_20261114_181038_372764` w `powtorki/`.
+
+Trzeciego przeciwnika bot zabił w 105. tiku, a czwartego dopiero w 231.
+W tym czasie życie spadło ze 100 do 80 w tiku 170, do 72 w 198 i do 12
+w 224; końcowy cios sprowadził je do -4. Bot stoi w miejscu i strzela
+również podczas szukania celu, więc długo wystawiał się na ataki. Dziennik
+pokazuje widoczne etykiety, ale nie wskazuje źródła obrażeń ani trafień,
+dlatego nie rozstrzyga, który przeciwnik zadał każdy cios ani czemu każdy
+strzał nie trafił. To analiza tej jednej próby, nie dowód przyczyn różnic
+we wszystkich seedach.
 - 2026-11-13 21:37 — MAP01: **3720 tików** (106,29 s czasu gry); dawny pomiar zegarowy 105,45 s; powtórka: `recznie_20261113_213739.lmp`
 - 2026-11-13 21:45 — MAP01: **3027 tików** (86,49 s czasu gry); dawny pomiar zegarowy 85,88 s; powtórka: `recznie_20261113_214524.lmp`
 

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import json
 import os
 import random
 
@@ -15,6 +16,7 @@ from pathlib import Path
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 import vizdoom as vzd
+from wideo import Video
 
 
 ROOT = Path(__file__).resolve().parent
@@ -63,6 +65,7 @@ def create_game() -> vzd.DoomGame:
     game.set_render_all_frames(False)
     game.set_window_visible(False)
     game.set_labels_buffer_enabled(True)
+    game.set_screen_format(vzd.ScreenFormat.RGB24)
     # Liczniki służą wyłącznie do raportowania wyniku; bot podejmuje decyzje
     # tylko na podstawie etykiet ekranowych w choose_action().
     game.add_available_game_variable(vzd.GameVariable.KILLCOUNT)
@@ -82,11 +85,36 @@ def run_episode(
     rng = random.Random(seed)
     game.new_episode(str(replay).replace("\\", "/"))
     fingerprint = hashlib.sha256()
-    while not game.is_episode_finished():
-        state = game.get_state()
-        fingerprint.update(state.screen_buffer.tobytes())
-        action, duration = choose_action(game, rng, random_bot)
-        game.make_action(action, duration)
+    video = Video(replay.with_suffix('.avi'), game.get_screen_width(), game.get_screen_height())
+    try:
+        with replay.with_suffix('.jsonl').open('w', encoding='utf-8') as log:
+            log.write(json.dumps({'typ': 'start', 'seed': seed, 'bot': kind, 'powtorka': replay.name, 'fps': 35}) + '\n')
+            while not game.is_episode_finished():
+                state = game.get_state()
+                fingerprint.update(state.screen_buffer.tobytes())
+                action, duration = choose_action(game, rng, random_bot)
+                game.set_action(action)
+                for remaining in range(duration, 0, -1):
+                    if game.is_episode_finished():
+                        break
+                    state = game.get_state()
+                    labels = [{'nazwa': label.object_name, 'id': label.object_id,
+                               'x': label.x, 'y': label.y, 'szerokosc': label.width,
+                               'wysokosc': label.height} for label in state.labels]
+                    log.write(json.dumps({'typ': 'tik', 'tik': game.get_episode_time(),
+                        'zycie': game.get_game_variable(vzd.GameVariable.HEALTH),
+                        'amunicja': game.get_game_variable(vzd.GameVariable.SELECTED_WEAPON_AMMO),
+                        'zabite': game.get_game_variable(vzd.GameVariable.KILLCOUNT),
+                        'etykiety': labels, 'akcja': action, 'pozostale_tiki_akcji': remaining}, ensure_ascii=False) + '\n')
+                    video.write(state.screen_buffer)
+                    game.advance_action()
+            log.write(json.dumps({'typ': 'koniec', 'tik': game.get_episode_time(),
+                'zycie': game.get_game_variable(vzd.GameVariable.HEALTH),
+                'amunicja': game.get_game_variable(vzd.GameVariable.SELECTED_WEAPON_AMMO),
+                'zabite': game.get_game_variable(vzd.GameVariable.KILLCOUNT),
+                'nagroda': game.get_total_reward()}) + '\n')
+    finally:
+        video.close()
     result = (
         int(game.get_game_variable(vzd.GameVariable.KILLCOUNT)),
         int(game.get_game_variable(vzd.GameVariable.DEATHCOUNT)) - deaths_before,
