@@ -25,8 +25,11 @@ ROUTE = [(650, -160), (770, -160), (1100, 120), (1380, 120), (1390, -200), (1780
 # Punkty przedmiotów z mapy: strzelba/amunicja, apteczki i zielony pancerz.
 # Trasa pozostaje oparta na położeniu, a nie na czasie lub nagranych ruchach.
 ROUTE_NEW = [(650, -160), (770, -160), (1088, 304), (1088, 368),
-             (1100, 120), (1380, 120), (1390, -200), (1780, -160), (1900, -160), (1950, -400),
-             (1816, -728), (1900, -728), (1900, -800), (1600, -800), (1400, -800),
+             (1100, 120), (1380, 120), (1390, -200),
+             (1460, -240), (1528, -240), (1592, -240), (1656, -240), (1720, -240),
+             (1720, -160), (1536, -160), (1720, -160), (1780, -160),
+             (1900, -160), (1950, -400), (1816, -728), (1900, -728),
+             (1900, -800), (1850, -850), (1750, -850), (1650, -850), (1600, -800), (1400, -800),
              (1100, -1024), (900, -1024), (750, -1024), (550, -1024),
              (400, -1024), (216, -800), (216, -675)]
 MONSTERS = {'ZombieMan', 'ShotgunGuy', 'DoomImp', 'Demon', 'Spectre',
@@ -87,6 +90,10 @@ def run(seed, version="nowy"):
         with path.with_suffix('.jsonl').open('w', encoding='utf-8') as log:
             log.write(json.dumps({'typ':'start', 'seed':seed, 'seed_silnika':engine_seed, 'trudnosc':3, 'wersja':version, 'trasa':route})+'\n')
             waypoint = 0
+            med_index = route.index((1816, -728)) if version == 'nowy' else -1
+            shotgun_index = route.index((1536, -160)) if version == 'nowy' else -1
+            stair_start = route.index((1460, -240)) if version == 'nowy' else -1
+            stair_end = route.index((1780, -160)) if version == 'nowy' else -1
             waypoint_since = 0
             elapsed = 0
             history = deque(maxlen=60)
@@ -100,12 +107,17 @@ def run(seed, version="nowy"):
                     state = game.get_state()
                     x, y, angle, health, armor, ammo, kills, shotgun, shells, weapon = state.game_variables
                     tick = game.get_episode_time()
-                    if waypoint < len(route)-1 and math.hypot(x-route[waypoint][0], y-route[waypoint][1]) < 35:
+                    radius = 20 if version == 'nowy' and stair_start <= waypoint <= stair_end else 35
+                    if waypoint < len(route)-1 and math.hypot(x-route[waypoint][0], y-route[waypoint][1]) < radius:
                         waypoint += 1
                         waypoint_since = elapsed
                     # Apteczka jest opcjonalna, gdy nie da się do niej dotrzeć.
-                    if version == 'nowy' and waypoint == 10 and elapsed - waypoint_since > 250:
+                    if version == 'nowy' and waypoint == med_index and elapsed - waypoint_since > 250:
                         waypoint += 1
+                        waypoint_since = elapsed
+                    # Po wypchnięciu na północ wróć przez znane wejście do korytarza.
+                    if version == 'nowy' and waypoint >= med_index and x < 1820 and y > -320:
+                        waypoint = route.index((1390, -200))
                         waypoint_since = elapsed
                     target = route[waypoint]
                     if version == 'nowy':
@@ -133,7 +145,7 @@ def run(seed, version="nowy"):
                         error = (90 - angle + 180) % 360 - 180
                         cmd = [0, max(-15, min(15, -error)), 1,
                                int(abs(error) < 15 and tick % 2 == 0), 0]
-                    elif version == 'nowy' and waypoint < len(route) - 2 and not shotgun and not gun_cooldown and not escape:
+                    elif version == 'nowy' and shotgun_index < waypoint < len(route) - 2 and not shotgun and not gun_cooldown and not escape:
                         # Wyłącznie obiekty widoczne na ekranie, bez pozycji aktorów.
                         guns = [a for a in state.labels if a.object_name == 'Shotgun'
                                 and a.width > 0 and (state.labels_buffer == a.value).any()]
@@ -155,7 +167,7 @@ def run(seed, version="nowy"):
                     # Wybór jest dozwolony, gdy HUD pokazuje broń i amunicję.
                     cmd.append(int(version == 'nowy' and shotgun and shells > 0 and weapon != 3))
                     video.write(state.screen_buffer)
-                    log.write(json.dumps({'typ':'tik','tik':tick,'x':x,'y':y,'kat':angle,'cel':waypoint,'zycie':health,'pancerz':armor,'amunicja':ammo,'zabite':kills,'strzelba':shotgun,'naboje_strzelby':shells,'bron':weapon,'akcja':cmd, 'widoczni':[{'nazwa':a.object_name,'x':a.x,'szerokosc':a.width} for a in state.labels if a.object_name in MONSTERS and (state.labels_buffer == a.value).any()]})+'\n')
+                    log.write(json.dumps({'typ':'tik','tik':tick,'x':x,'y':y,'kat':angle,'cel':waypoint,'zycie':health,'pancerz':armor,'amunicja':ammo,'zabite':kills,'strzelba':shotgun,'naboje_strzelby':shells,'bron':weapon,'cel_x':target[0],'cel_y':target[1],'akcja':cmd, 'widoczni':[{'nazwa':a.object_name,'x':a.x,'szerokosc':a.width} for a in state.labels if a.object_name in MONSTERS and (state.labels_buffer == a.value).any()]})+'\n')
                     game.make_action(cmd, 1)
                     elapsed += 1
             dead = game.is_player_dead() or game.get_game_variable(vzd.GameVariable.HEALTH) <= 0
