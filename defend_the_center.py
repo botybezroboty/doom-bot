@@ -85,7 +85,7 @@ def run_episode(
     rng = random.Random(seed)
     game.new_episode(str(replay).replace("\\", "/"))
     fingerprint = hashlib.sha256()
-    video = Video(replay.with_suffix('.avi'), game.get_screen_width(), game.get_screen_height())
+    video = Video(replay.with_suffix('.mp4'), game.get_screen_width(), game.get_screen_height())
     try:
         with replay.with_suffix('.jsonl').open('w', encoding='utf-8') as log:
             log.write(json.dumps({'typ': 'start', 'seed': seed, 'bot': kind, 'powtorka': replay.name, 'fps': 35}) + '\n')

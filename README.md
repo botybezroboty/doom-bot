@@ -34,14 +34,13 @@ ale nie odtwarza ich ani nie weryfikuje w ten sposób wyników. Ponowne
 uruchomienie nadpisuje `porownanie.csv`; powtórki nie są zapisane w Git.
 `requirements.txt` nie przypina wersji zależności, więc środowisko może się różnić.
 
-Każda nowa gra ma obok powtórki `.lmp` plik `.avi` (obraz 35 klatek/s,
+Każda nowa gra ma obok powtórki `.lmp` plik `.mp4` (obraz 35 klatek/s,
 bez dźwięku) i dziennik `.jsonl`. Każdy wiersz `tik` opisuje stan przed
 wykonaniem akcji: czas, życie, amunicję wybranej broni, liczbę zabójstw,
 widoczne etykiety z pozycją i rozmiarem oraz akcję `[lewo, prawo, strzał]`.
-`pozostale_tiki_akcji` obejmuje bieżący tik. Obraz w AVI pokazuje te same
+`pozostale_tiki_akcji` obejmuje bieżący tik. Obraz w MP4 pokazuje te same
 klatki; wiersz `koniec` zapisuje stan końcowy. Nagrania i dzienniki nie są
-przechowywane w Git. AVI zawiera bezstratne klatki PNG; potrzebny jest
-odtwarzacz obsługujący ten kodek, np. VLC.
+przechowywane w Git. Wideo używa kodeka H.264 i formatu kolorów yuv420p.
 
 ```powershell
 .\.venv\Scripts\python.exe defend_the_center.py --trials 100
