@@ -1,5 +1,43 @@
 # Wyniki gry ręcznej
 
+## Poprawka zatrzymywania celownika
+
+Najgorsza gra poprzedniej wersji: seed wejściowy 210, jeden zabity,
+śmierć w tiku 224 i 22 naboje. Powtórzono ją z identycznym wynikiem
+i SHA-256 obrazów `9f278010a315bdfbbe9d958e581d91d6db586ac94fa329908091ffc467a068e2`.
+Nagranie i dziennik powtórzenia mają nazwę bazową
+`center_etykiety_210_20261114_194812_521231` w `powtorki/`.
+
+W 149 z 214 zapisanych tików bot widział rozpoznawanego przeciwnika,
+ale jednocześnie nie skręcał i nie strzelał. Na przykład w tiku 200
+miał 12 punktów życia i 22 naboje; przeciwnik miał obrys x=164–173,
+a środek ekranu to x=160. Błąd polegał na tym, że bot przestawał
+skręcać w odległości do 9 pikseli od środka celu, choć warunek strzału
+wymagał przecięcia środka ekranu przez jego obrys. Poprawiony bot obraca
+się do chwili osiągnięcia tego obrysu. W grze na tym seedzie zabił 26,
+przeżył 1149 tików i wyczerpał amunicję w tiku 770. Nowe nagranie:
+`center_etykiety_210_20261114_195206_768230.mp4`.
+
+Na tych samych 100 seedach porównano trzy wersje; dwie wcześniejsze serie
+pochodzą z zachowanych dzienników i powtórek. Sprawdzono wyniki starych
+dzienników, seedy w 300 powtórkach i różne odciski obrazów nowej serii.
+Wszystkie gry zakończyły się śmiercią. Szczegóły: `porownanie_trzech.csv`.
+
+| Wynik | Ciągły strzał | Poprzedni obrys | Poprawiony obrys |
+|---|---:|---:|---:|
+| Średnio zabitych | 10,01 | 11,06 | 22,82 |
+| Zakres zabitych | 8–12 | 1–23 | 9–26 |
+| Średni czas (tiki) | 663,46 | 711,75 | 1115,85 |
+| Średnio zużytych nabojów | 26,00 | 15,78 | 25,73 |
+| Średnio zużytych poza obrysem | 17,32 | 4,46 | 0,82 |
+| Gry z wyczerpaną amunicją | 100 | 18 | 97 |
+
+Nowa wersja względem poprzedniej zabiła więcej na 96 seedach, tyle samo na
+jednym i mniej na trzech (64: 23→21, 158: 22→19, 176: 19→9). Względem
+ciągłego strzału wynik wzrósł na 99 seedach, a na jednym był równy.
+Pomiar zużycia poza obrysem jest przybliżeniem opisanym poniżej, nie liczbą
+potwierdzonych chybień.
+
 ## Ograniczenie strzelania w defend_the_center
 
 Porównano serię z `porownanie_demony.csv` z nową na tych samych 100 seedach.

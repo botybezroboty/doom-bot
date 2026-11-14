@@ -69,7 +69,9 @@ def choose_action(
             ))
             target_x = target.x + target.width / 2
             error = target_x - FRAME_WIDTH / 2
-            turn = 1 if error < -9 else (2 if error > 9 else 0)
+            # Nie zatrzymuj celowania przed osiągnięciem wąskiego obrysu.
+            turn = 1 if target.x + target.width <= FRAME_WIDTH / 2 else (
+                2 if target.x > FRAME_WIDTH / 2 else 0)
             duration = 1 if abs(error) < 40 else (2 if abs(error) < 90 else SEARCH_TICS)
             shoot = target.x <= FRAME_WIDTH / 2 < target.x + target.width
         else:

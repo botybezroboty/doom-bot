@@ -54,11 +54,15 @@ można uruchomić poleceniem `.\.venv\Scripts\python.exe porownaj_demony.py`.
 Skrypt wymaga zachowanych dawnych powtórek i zapisuje
 wyniki par w `porownanie_demony.csv`.
 
-Bot strzela, gdy środek ekranu mieści się w obrysie wybranego przeciwnika.
+Bot obraca się, aż środek ekranu znajdzie się w obrysie wybranego przeciwnika,
+i wtedy strzela.
 `porownaj_amunicje.py` porównuje go na 100 tych samych seedach z serią
 `porownanie_demony.csv`; wymaga jej powtórek i dzienników, a wyniki zapisuje
 w `porownanie_amunicji.csv`. Zużycie poza celem jest oszacowaniem z dziennika,
 nie pomiarem rzeczywistych chybień.
+`porownaj_trzy.py` porównuje wcześniejsze dwie serie z aktualną na tych samych
+100 seedach, sprawdza zachowane dzienniki i powtórki oraz zapisuje dane do
+`porownanie_trzech.csv`.
 
 Tryb ręczny:
 
