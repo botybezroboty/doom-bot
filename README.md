@@ -23,7 +23,7 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe bot.py 1 5
 ```
 
-`bot.py` uruchamia bota na MAP01 dla podanych seedów. Każda próba ma w `powtorki/` powtórkę LMP, wideo MP4 i dziennik JSONL. Bot steruje się po bieżącej pozycji i kierunku, korzystając z punktów znanej mapy; celuje w widocznych przeciwników, próbuje zebrać widoczną strzelbę i wybiera ją, gdy ma naboje, oraz zbiera inne przedmioty na trasie. Wideo pokazuje pełny HUD. Ustawia poziom trudności 3; poziom historycznych gier ręcznych jest nieznany. Wyniki i ograniczenia znajdują się w `wyniki.md`. Seedy powodujące obcięcie wartości silnika są odrzucane.
+`bot.py` uruchamia bota na MAP01 dla podanych seedów. Każda próba ma w `powtorki/` powtórkę LMP, wideo MP4 i dziennik JSONL. Bot steruje się po bieżącej pozycji i kierunku, korzystając z punktów znanej mapy; celuje w widocznych przeciwników, idzie po schodach do stałej strzelby na mapie i wybiera ją, gdy ma naboje, oraz zbiera inne przedmioty na trasie. Wideo pokazuje pełny HUD. Ustawia poziom trudności 3; poziom historycznych gier ręcznych jest nieznany. Wyniki i ograniczenia znajdują się w `wyniki.md`. Seedy powodujące obcięcie wartości silnika są odrzucane.
 
 ## Jeden test całości
 
@@ -40,6 +40,15 @@ odtwarza oraz sprawdza użycie przełącznika, czas i brak zgonu. Wyniki są w
 film dostaje w `powtorki/` nazwę `najlepsza_map01_...mp4`. Jeśli nie ma
 ukończenia, mediana i najlepszy film nie są podawane. Każda próba ma też
 własną powtórkę, film i dziennik.
+
+## Porównanie nawigacji
+
+`porownanie_nawigacja.csv` porównuje poprzednią i bieżącą wersję na 60
+wcześniejszych i 20 odłożonych seedach. Szczegóły i ograniczenia są w
+`wyniki.md`. `porownaj_nawigacje.py` odtwarza porównanie z ustaloną listą
+`seedy_nawigacja_kontrolne.json`; przy ponownym uruchomieniu lista nie jest
+już nowa. Skrypt nadpisuje CSV, a próby zapisuje pod unikalnymi nazwami.
+Poprzednią wersję zachowano w `bot_przed_nawigacja.py`.
 
 ## Porównanie strzelby i wyjścia
 

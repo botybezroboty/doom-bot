@@ -1,5 +1,57 @@
 # Wyniki gry ręcznej
 
+## Stała strzelba i odzyskiwanie trasy — 60 + 20 seedów
+
+Strzelba wskazana w filmie leży na podwyższeniu przy (1536, −160). Wejście od
+zachodu bezpośrednio na środek jest zbyt wysokie; bot przechodzi teraz po
+stopniach od południa, wchodzi na górę i wraca do drzwi. Na seedzie 1002
+poprzednia wersja zdobyła pierwszą strzelbę w odległości 864 jednostek od
+tego miejsca. Nowa zdobyła ją w tiku 623, 35,5 jednostki od punktu; w
+odtwarzanej powtórce bezpośrednio przed tym widoczny jest obiekt strzelby z
+mapy w (1536, −160), a następnie gracz ma broń. Wybrał ją w tiku 644.
+Nagranie: `map01_nowy_1002_20261114_234112_781372.mp4`.
+
+W starym dzienniku 1084 bot po walce znajdował się na północ od drzwi, a po
+przekroczeniu czasu przeznaczonego na apteczkę próbował iść do punktu na
+południe od zamkniętej geometrii, krążąc między około (1286, −304) a
+(1808, −208). W 1098 próbował przejść ze strony (1744, −685) do punktu za
+krawędzią i ścianami, poruszając się w okolicy bez dotarcia do celu. Nowa
+trasa wraca do drzwi, jeśli walka przeniosła bota na ich północną stronę,
+i prowadzi zachodni odcinek przez przejście przy y≈−850. Oba seedy zakończyły
+się wyjściem: odpowiednio 1775 i 1497 tików. Przy diagnozie odkryto też
+przypadki powrotu do już zdobytej strzelby i zepchnięcia ze stopni: bot
+zapamiętuje dotarcie do niej, a po zepchnięciu podejmuje ograniczone próby
+ponownego wejścia.
+
+| Zestaw | Wersja | Wyjścia | Zgony | Limit | Mediana ukończeń | Posiadał strzelbę | Pierwsze zdobycie blisko podwyższenia |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Wcześniejsze 60 | Przed | 47 | 11 | 2 | 1773 | 51 | 0 |
+| Wcześniejsze 60 | Po | 53 | 7 | 0 | 1671 | 55 | 46 |
+| Nowe kontrolne 20 | Przed | 15 | 3 | 2 | 1729 | 18 | 0 |
+| Nowe kontrolne 20 | Po | 18 | 2 | 0 | 1622 | 20 | 16 |
+
+Mediany obejmują tylko ukończenia; ich zestawy mogą różnić się między
+wersjami. Wszystkie ukończenia miały mniej niż 3027 tików. Ostatnia kolumna
+jest przybliżeniem: oznacza pierwsze przejście z braku broni do posiadania
+w promieniu 40 jednostek od stałej strzelby, a nie identyfikację konkretnego
+podniesionego obiektu. Nie obejmuje sytuacji, gdy bot miał strzelbę już
+wcześniej. Wiarygodność źródła dla opisanej próby 1002 sprawdzono osobno w
+powtórce. Bot może zginąć albo nie zdobyć tej broni w innych okolicznościach.
+
+Trzy wcześniejsze zestawy po 20 pochodzą z `porownanie_strzelba_final.csv`;
+część posłużyła do diagnostyki i poprawek. Wstępną serię na seedach 1107–1139
+zachowano w `porownanie_nawigacja_etap.csv`; po jej problemie na seedzie
+1131 poprawiono ponowne wejście. Ostatnie 20 nowych seedów z pliku
+`seedy_nawigacja_kontrolne.json` odłożono przed tą poprawką i nie użyto do
+strojenia. W `porownanie_nawigacja.csv` są wszystkie 160 pozycji, czasy,
+seedy silnika, nazwy powtórek i przybliżone miejsca zdobycia broni. Każde
+nowe zgłoszone wyjście odtworzono i sprawdzono czas, brak zgonu oraz użycie
+przełącznika; osobnego sygnału wyjścia ViZDoom tu nie dostarcza. Sprawdzono
+komplety LMP/MP4/JSONL i seedy w nagłówkach wszystkich 160 powtórek.
+ViZDoom 1.3.2, Freedoom 2 MAP01, trudność 3; trudność dawnych prób ręcznych
+pozostaje nieznana.
+
+
 ## Strzelba i przełącznik — porównanie przed i po
 
 Użytkownik wskazał najlepszą próbę z seeda 1002. Jej dziennik nie zapisywał

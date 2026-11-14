@@ -102,12 +102,23 @@ def run(seed, version="nowy"):
             gun_chase = 0
             gun_origin = None
             gun_cooldown = 0
+            fixed_shotgun_reached = False
+            stair_retries = 0
+            abandon_shotgun = False
             with dokladny_zegar():
                 while not game.is_episode_finished() and not game.is_player_dead():
                     state = game.get_state()
                     x, y, angle, health, armor, ammo, kills, shotgun, shells, weapon = state.game_variables
                     tick = game.get_episode_time()
+                    if version == 'nowy' and shotgun and math.hypot(x - 1536, y + 160) < 38:
+                        fixed_shotgun_reached = True
+                    if version == 'nowy' and waypoint == shotgun_index and (fixed_shotgun_reached or abandon_shotgun):
+                        waypoint += 1
+                        waypoint_since = elapsed
                     radius = 20 if version == 'nowy' and stair_start <= waypoint <= stair_end else 35
+                    if version == 'nowy' and waypoint == shotgun_index and shotgun:
+                        # Podniesienie jest możliwe z odległości około 36 jednostek.
+                        radius = 38
                     if waypoint < len(route)-1 and math.hypot(x-route[waypoint][0], y-route[waypoint][1]) < radius:
                         waypoint += 1
                         waypoint_since = elapsed
@@ -119,6 +130,13 @@ def run(seed, version="nowy"):
                     if version == 'nowy' and waypoint >= med_index and x < 1820 and y > -320:
                         waypoint = route.index((1390, -200))
                         waypoint_since = elapsed
+                    # Po zepchnięciu ze stopni spróbuj ponownie znanej drogi.
+                    if version == 'nowy' and waypoint == shotgun_index and elapsed - waypoint_since > 180:
+                        stair_retries += 1
+                        abandon_shotgun = stair_retries >= 3
+                        waypoint = stair_start
+                        waypoint_since = elapsed
+                        history.clear()
                     target = route[waypoint]
                     if version == 'nowy':
                         history.append((x, y))
