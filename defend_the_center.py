@@ -45,19 +45,22 @@ def run_episode(seed: int, random_bot: bool) -> tuple[float, int]:
     replay = REPLAYS / f"center_{kind}_{seed:03d}_{started:%Y%m%d_%H%M%S_%f}.lmp"
     game = vzd.DoomGame()
     game.load_config(str(SCENARIO))
-    game.set_doom_scenario_path(str(SCENARIO.with_suffix(".wad")))
     game.set_window_visible(False)
     game.set_labels_buffer_enabled(True)
     game.set_seed(seed)
     game.init()
     rng = random.Random(seed)
     try:
-        game.new_episode(str(replay))
+        game.new_episode(str(replay).replace("\\", "/"))
         while not game.is_episode_finished():
             game.make_action(choose_action(game, rng, random_bot), ACTION_TICS)
-        return game.get_total_reward(), game.get_episode_time()
+        result = game.get_total_reward(), game.get_episode_time()
     finally:
         game.close()
+    if not replay.exists():
+        raise RuntimeError(f"ViZDoom nie zapisał powtórki: {replay}")
+    print(f"Powtórka zapisana: {replay.name}", flush=True)
+    return result
 
 
 def main() -> None:
