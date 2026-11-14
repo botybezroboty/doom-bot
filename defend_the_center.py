@@ -17,14 +17,17 @@ ROOT = Path(__file__).resolve().parent
 REPLAYS = ROOT / "powtorki"
 SCENARIO = Path(vzd.scenarios_path) / "defend_the_center.cfg"
 FRAME_WIDTH = 320
-ACTION_TICS = 1
+SEARCH_TICS = 4
 TARGET_LABEL = "MarineChainsawVzd"
 
 
-def choose_action(game: vzd.DoomGame, rng: random.Random, random_bot: bool) -> list[int]:
+def choose_action(
+    game: vzd.DoomGame, rng: random.Random, random_bot: bool
+) -> tuple[list[int], int]:
     """Wybiera skręt wyłącznie na podstawie ekranowych etykiet obiektów."""
     if random_bot:
         turn = rng.choice((0, 1, 2))  # bez skrętu, w lewo, w prawo
+        duration = SEARCH_TICS
     else:
         state = game.get_state()
         labels = state.labels if state is not None and state.labels else []
@@ -40,10 +43,12 @@ def choose_action(game: vzd.DoomGame, rng: random.Random, random_bot: bool) -> l
             target_x = min(targets, key=lambda x: abs(x - FRAME_WIDTH / 2))
             error = target_x - FRAME_WIDTH / 2
             turn = 1 if error < -9 else (2 if error > 9 else 0)
+            duration = 1 if abs(error) < 40 else (2 if abs(error) < 90 else SEARCH_TICS)
         else:
             turn = 2
+            duration = SEARCH_TICS
 
-    return [int(turn == 1), int(turn == 2), 1]
+    return [int(turn == 1), int(turn == 2), 1], duration
 
 
 def run_episode(seed: int, random_bot: bool) -> tuple[int, int, float, int]:
@@ -54,8 +59,7 @@ def run_episode(seed: int, random_bot: bool) -> tuple[int, int, float, int]:
     game = vzd.DoomGame()
     game.set_window_visible(False)
     game.load_config(str(SCENARIO))
-    game.set_mode(vzd.Mode.ASYNC_PLAYER)
-    game.set_ticrate(1000)
+    game.set_mode(vzd.Mode.PLAYER)
     game.set_render_all_frames(False)
     game.set_window_visible(False)
     game.set_labels_buffer_enabled(True)
@@ -69,7 +73,8 @@ def run_episode(seed: int, random_bot: bool) -> tuple[int, int, float, int]:
     try:
         game.new_episode(str(replay).replace("\\", "/"))
         while not game.is_episode_finished():
-            game.make_action(choose_action(game, rng, random_bot), ACTION_TICS)
+            action, duration = choose_action(game, rng, random_bot)
+            game.make_action(action, duration)
         result = (
             int(game.get_game_variable(vzd.GameVariable.KILLCOUNT)),
             int(game.get_game_variable(vzd.GameVariable.DEATHCOUNT)),
