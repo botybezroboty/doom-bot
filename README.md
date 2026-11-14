@@ -2,6 +2,13 @@
 
 Prosty bot sterowany regułami, bez uczenia maszynowego. Gra w Freedoom 2 przez ViZDoom.
 
+## Zasady projektu
+
+Szczegółowe, trwałe zasady dla kolejnych czatów znajdują się w [AGENTS.md](AGENTS.md).
+W skrócie: używamy zwykłych skryptów Python bez ML/AI w trakcie gry, ViZDoom
+i dołączonego Freedooma, pracujemy w tym repozytorium i `.venv`, zapisujemy każdą
+rozgrywkę w `powtorki/`, a po każdym działającym kroku robimy commit po polsku.
+
 ## Uruchomienie
 
 Wymagany Python 3.10+ x64 na Windows.
