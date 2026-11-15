@@ -1,5 +1,50 @@
 # Wyniki gry ręcznej
 
+## Niezawodność — 80 znanych + 100 odłożonych seedów (15.11.2026)
+
+**Cel pełnej niezawodności nie został osiągnięty:** poprawiona wersja ma 179 wyjść na 180 prób. Na odłożonych seedach pozostał jeden zgon. Wszystkie 179 ukończeń nowej wersji trwało mniej niż 3027 tików; najwolniejsze 2797.
+
+| Zestaw | Wersja | Wyjścia | Zgony | Limit | Mediana tików ukończeń |
+|---|---|---:|---:|---:|---:|
+| Znane 80 | Przed | 71 | 9 | 0 | 1649 |
+| Znane 80 | Po | 80 | 0 | 0 | 1743 |
+| Odłożone 100 | Przed | 87 | 13 | 0 | 1715 |
+| Odłożone 100 | Po | 99 | 1 | 0 | 1809 |
+
+Mediana obejmuje tylko ukończenia, więc zestawy ukończonych seedów różnią się między wersjami. Nowa mediana jest o 94 tiki większa w obu zestawach, przy znacznie większej liczbie wyjść. ViZDoom 1.3.2, dołączony Freedoom 2 MAP01, trudność 3, limit 3500; konfiguracja i `cel.md` zachowane. Trudność historycznych prób człowieka nadal jest nieznana.
+
+### Diagnoza dawnych dziewięciu zgonów
+
+W dziennikach i klatkach filmów wszystkie dziewięć przypadków poprzedza duża utrata życia przy beczkach w pierwszej sali. Dawna reguła biegła z pełną prędkością do wąskiego, odległego celu i strzelała w pobliżu beczek. Część prób kończyła się bezpośrednio przy wybuchu, pozostałe znacznie później, po dalszej walce z bardzo małą ilością życia. Dziennik nie wskazuje sprawcy każdego trafienia; związek z wybuchami ustalono z przebiegu i obrazu, a nie z osobnego licznika źródła obrażeń.
+
+| Seed | Tiki dużych ubytków życia i wielkość ubytku | Tik zgonu |
+|---|---|---:|
+| 1010 | 540: 127 HP | 540 |
+| 1030 | 519: 55 HP, 541: 86 HP | 541 |
+| 1032 | 298: 58 HP, 314: 46 HP | 314 |
+| 1041 | 371: 84 HP | 588 |
+| 1056 | 529: 84 HP | 1154 |
+| 1085 | 298: 68 HP | 1556 |
+| 1092 | 404: 86 HP | 617 |
+| 1144 | 499: 36 HP, 512: 27 HP | 1804 |
+| 1161 | 460: 76 HP | 1461 |
+
+Ubytki liczą różnicę wartości HEALTH, także jej zejście poniżej zera. Pełne pozycje, odległości do początkowych punktów beczek i nazwy nagrań: [diagnoza_niezawodnosc.json](diagnoza_niezawodnosc.json); odtworzenie zestawienia: `diagnozuj_zgony.py`. [Klatki dziewięciu dawnych przypadków](powtorki/diagnoza_zgonow.png) są ułożone w kolejności seedów z powyższej tabeli.
+
+Bot teraz wolniej podchodzi do odległych przeciwników i zatrzymuje się przy bliższych. Widoczne beczki o małym obrysie ostrzeliwuje przed dalszym ruchem; próba ma ograniczony czas, a ponowienie wymaga zmiany pozycji. Po ostrzale i przy widocznej eksplozji czeka, ponieważ podmuch przesuwa kolejne beczki, a wybuch łańcuchowy trwa jeszcze po zniszczeniu pierwszej. Przy braku amunicji podejmuje nawigację. Wszystkie decyzje pochodzą ze skryptu regułowego, bieżącego obrazu/etykiet widocznych obiektów i własnej pozycji; bot nie odczytuje położeń niewidocznych aktorów.
+
+Zachowano trasę, zbieranie przedmiotów, wybór strzelby i obsługę wyjścia. Nowa wersja zdobyła i wybrała strzelbę oraz osiągnęła co najmniej 100 pancerza na wszystkich znanych 80 seedach. Dodatkowa regresja na dawnych 20 seedach z `seedy_nawigacja_etap.json` dała 20 wyjść, 0 zgonów, 0 limitów; mediana 1862, maksimum 2447. Przeszły także cztery istniejące testy celowania.
+
+### Niezależność testu i pozostałe niepowodzenie
+
+Listę 100 nowych, niepowtarzających się seedów zapisano przed zmianami w commicie `12b4033` (`seedy_niezawodnosc_odlozone.json`). Stara wersja to `bf1411a`, zachowana w `bot_przed_niezawodnoscia.py`. Kod poprawki zapisano w `2bf2a83`, sumy kontrolne i środowisko zamrożono w `55c7742` (`zamrozenie_niezawodnosc.json`). Po rozpoczęciu testu odłożonego kod bota nie był zmieniany. Lista 80 znanych i dodatkowe 20 dawnych seedów służyły rozwojowi, więc ich wynik nie jest niezależną oceną.
+
+Na znanych 80 wykorzystano zachowane próby końcowej poprawki; starą wersję rozegrano ponownie. Jej wszystkie wyniki i czasy zgadzają się z dawną tabelą. Na odłożonych 100 obie wersje rozegrano od nowa. Każde zgłoszone wyjście odtworzono i potwierdzono czas, brak śmierci i użycie przełącznika przy końcu. Jak wcześniej, ViZDoom nie dostarcza tu osobnego sygnału wyjścia. Sprawdzono komplet LMP/MP4/JSONL i seed w nagłówku każdej próby.
+
+Pozostały zgon kontrolny: **seed 1226, tik 589**, około (1141, -274), przed dotarciem do pancerza. Życie malało stopniowo pod ostrzałem, bez dużego jednorazowego ubytku charakterystycznego dla dawnych wybuchów. Bot długo pozostawał przed wejściem do sali (m.in. tiki 121–361), tracąc życie ze 100 do 61 przy zerowym pancerzu; w tiku 541 miał już 10 HP. To pozostała słabość postoju podczas walki i ostrzału beczek. Nagranie obejrzano dopiero po zakończeniu serii, wyłącznie do opisu ograniczenia; nie użyto go do poprawiania kodu. [Klatki tiku 400 i 580](powtorki/diagnoza_kontrolna_1226.png), [pełne wideo](powtorki/map01_nowy_1226_20261115_100940_129205.mp4).
+
+Końcowe pary są w [porownanie_niezawodnosc.csv](porownanie_niezawodnosc.csv), a wyniki poszczególnych zestawów w `niezawodnosc_<seria>_<wersja>.csv`. Ta sesja obejmowała **565 nowych rozgrywek: 538 wyjść, 25 zgonów, 2 limity**, wszystkie z kompletem nagrań. Końcowe porównanie to 360 prób; poza nim wykonano 205 prób diagnostycznych i regresyjnych (201 wyjść, 2 zgony, 2 limity). Pełny rejestr: [proby_niezawodnosc_wszystkie.csv](proby_niezawodnosc_wszystkie.csv). Wynik 99/100 nie uprawnia do deklarowania przejścia każdej gry.
+
 ## Stała strzelba i odzyskiwanie trasy — 60 + 20 seedów
 
 Strzelba wskazana w filmie leży na podwyższeniu przy (1536, −160). Wejście od
