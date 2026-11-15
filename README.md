@@ -20,33 +20,86 @@ To zwykły skrypt z regułami. Nie ma w nim uczenia maszynowego ani modelu AI dz
 
 Wszystkie pomiary agenta są w [wyniki.md](wyniki.md).
 
-## Szybki start
+## Uruchomienie krok po kroku
 
-Sprawdzone na Windows 11 z Pythonem 3.12.10. Niczego nie trzeba kupować: biblioteka ViZDoom ma w paczce darmowego Freedooma.
+Sprawdzone na Windows 11 z Pythonem 3.12.10. Na innych systemach nikt tego jeszcze nie próbował. Niczego nie trzeba kupować: biblioteka ViZDoom ma w paczce darmowego Freedooma. Całość zajmuje kilka minut.
 
-Sklonuj repozytorium do folderu o krótkiej ścieżce bez spacji, na przykład `C:\doom-bot`. ViZDoom 1.3.2 na Windowsie gubi powtórki albo się zawiesza, gdy ścieżka jest długa lub ma spację.
+### 1. Otwórz PowerShell
+
+Kliknij Start, wpisz `PowerShell` i naciśnij Enter. Wszystkie polecenia poniżej wklejasz do tego okna, po jednym, i zatwierdzasz Enterem.
+
+### 2. Zainstaluj Gita i Pythona 3.12
+
+Jeśli już je masz, pomiń ten krok.
+
+```powershell
+winget install -e --id Git.Git
+winget install -e --id Python.Python.3.12
+```
+
+Windows może zapytać o zgodę na instalację. Po instalacji zamknij PowerShell i otwórz go od nowa, żeby zobaczył nowe programy. Sprawdź, czy działają:
+
+```powershell
+git --version
+py -3.12 --version
+```
+
+Oba polecenia powinny wypisać numer wersji.
+
+### 3. Pobierz projekt
+
+Projekt musi leżeć w folderze o krótkiej ścieżce bez spacji, na przykład `C:\doom-bot`. Przy długiej ścieżce albo spacji w nazwie ViZDoom 1.3.2 na Windowsie gubi powtórki albo się zawiesza.
 
 ```powershell
 git clone https://github.com/botybezroboty/doom-bot.git C:\doom-bot
 cd C:\doom-bot
+```
+
+### 4. Zainstaluj paczki
+
+```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+Pierwsze polecenie tworzy w folderze projektu osobne środowisko Pythona (`.venv`), żeby nic nie mieszało się z resztą komputera. Drugie pobiera do niego ViZDoom i dwie pomocnicze paczki. Trwa to kilkanaście sekund.
+
+### 5. Uruchom jedną grę
+
+```powershell
 .\.venv\Scripts\python.exe bot.py 1002
 ```
 
-Ostatnie polecenie rozgrywa jedną grę i trwa kilka sekund. Wypisze linię podobną do tej:
+Gra działa bez okna i trwa kilka sekund. Na końcu zobaczysz linię podobną do tej:
 
 ```
 1002 wyjscie 2209 map01_nowy_1002_20261115_095802_497024
 ```
 
-Po kolei: seed, czyli numer gry, od którego zależy zachowanie potworów, potem wynik (`wyjscie`, `zgon` albo `limit`, gdy skończył się czas), liczba tików gry (35 tików to sekunda) i nazwa plików tej gry. Pliki lądują w folderze `powtorki`:
+Po kolei: seed, czyli numer gry, od którego zależy zachowanie potworów, potem wynik (`wyjscie`, `zgon` albo `limit`, gdy skończył się czas), liczba tików gry (35 tików to sekunda) i nazwa plików tej gry.
 
-- `.mp4`: film z gry, który możesz od razu obejrzeć,
+### 6. Obejrzyj, co bot zrobił
+
+```powershell
+explorer powtorki
+```
+
+W folderze `powtorki` każda gra ma trzy pliki:
+
+- `.mp4`: film z gry, otwórz go dwuklikiem,
 - `.lmp`: powtórka, z której gra odtworzy całe przejście,
 - `.jsonl`: dziennik, tik po tiku: co bot widział, gdzie stał, co zrobił, ile miał życia.
 
-Możesz podać kilka seedów naraz, na przykład `bot.py 1 5 1002`. Część numerów bot odrzuca, bo na Windowsie biblioteka obcina zbyt duże numery i różne seedy dawałyby tę samą grę.
+Możesz podać kilka seedów naraz, na przykład `bot.py 1 5 1002`. Część numerów bot odrzuca, bo na Windowsie biblioteka obcina zbyt duże numery i różne seedy dawałyby tę samą grę. Wtedy po prostu podaj inny numer.
+
+### Następnym razem
+
+Wystarczy otworzyć PowerShell i wpisać:
+
+```powershell
+cd C:\doom-bot
+.\.venv\Scripts\python.exe bot.py 1002
+```
 
 ## Sprawdzenie wszystkiego jednym poleceniem
 
@@ -63,6 +116,22 @@ Trwa około trzech i pół minuty. Uruchamia testy celowania, 20 par gier na are
 ```
 
 Otwiera okno, w którym przechodzisz MAP01 na klawiaturze i myszy, a program mierzy czas do naciśnięcia przełącznika wyjścia. Dwa przejścia z filmu leżą w folderze [przejscia-czlowieka](przejscia-czlowieka).
+
+## Zmień coś w bocie
+
+Bot to jeden plik, `bot.py`. Otwórz go w dowolnym edytorze, choćby w Notatniku. Trzy miejsca na początek:
+
+- `ROUTE_NEW` na górze pliku: trasa przez poziom jako lista punktów na mapie,
+- funkcja `combat`: do kogo bot celuje i kiedy strzela,
+- pętla w funkcji `run`: co bot robi w każdym tiku, w tym zasady dla beczek i strzelby.
+
+Po zmianie puść bota na kilku seedach i porównaj wyniki ze starą wersją na tych samych seedach. Jedna gra nic nie mówi, bo potwory za każdym razem zachowują się inaczej.
+
+## Praca z agentem AI
+
+Bot powstał w aplikacji Codex, ale możesz użyć dowolnego agenta, który pracuje na plikach w folderze. Otwórz w nim folder projektu i pisz, co widzisz i czego chcesz. Zasady, których agent ma się trzymać, są w `AGENTS.md`. Wszystkie prompty z filmu, po kolei i z wynikiem każdego, leżą w [prompty/README.md](prompty/README.md).
+
+Dwie rady z filmu: każ agentowi pytać o zgodę, zanim zrobi coś poza folderem projektu, i nie wierz samemu raportowi. Obejrzyj film z gry.
 
 ## Jak się w tym odnaleźć
 
@@ -106,11 +175,13 @@ Poprawki są mile widziane. Zrób fork, wprowadź zmianę i wyślij pull request
 - podaj wynik na seedach, na których niczego nie stroiłeś, obok wyniku obecnej wersji na tych samych seedach,
 - jedna zmiana na jeden pull request.
 
-## Znane pułapki na Windowsie
+## Gdy coś nie działa
 
-- Długa ścieżka albo spacja w ścieżce: gra się zawiesza albo powtórka nie powstaje (ViZDoom 1.3.2). Autorzy biblioteki przygotowali już poprawki, wejdą do kolejnej wersji.
-- Przy starcie silnika na moment pojawia się jego okno. Skrypty uruchamiają silnik na osobnym, niewidocznym pulpicie, żeby go nie było widać.
-- Polskie znaki w konsoli potrafią się rozsypać. Pomaga `$env:PYTHONUTF8 = "1"` przed uruchomieniem.
+- `py` albo `git` „nie jest rozpoznawany jako nazwa polecenia”: zamknij PowerShell i otwórz go od nowa po instalacji. Jeśli to nie pomoże, zainstaluj program jeszcze raz (krok 2).
+- Gra się zawiesza albo w folderze `powtorki` nie ma powtórki: projekt leży w długiej ścieżce albo w ścieżce ze spacją. Przenieś go na przykład do `C:\doom-bot`. Autorzy ViZDoom przygotowali już poprawki tego błędu, wejdą do kolejnej wersji biblioteki.
+- Bot odrzuca seed z komunikatem o obcięciu seeda silnika: podaj inny numer.
+- Polskie znaki w oknie PowerShella są rozsypane: wpisz `$env:PYTHONUTF8 = "1"` przed uruchomieniem.
+- Przy starcie silnika gry na moment pojawia się jego okno. Skrypty uruchamiają silnik na osobnym, niewidocznym pulpicie, żeby go nie było widać, więc nie powinno się to zdarzać.
 
 ## Licencja
 
