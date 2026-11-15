@@ -1,0 +1,209 @@
+[
+  {
+    "seed": 1010,
+    "powtorka": "map01_nowy_1010_20261114_234122_996787",
+    "zgon": 540,
+    "obrazenia": [
+      {
+        "tik": 540,
+        "x": 871.3,
+        "y": 67.3,
+        "utrata_zycia": 127.0,
+        "zycie_po": -45.0,
+        "beczka": [
+          864,
+          88
+        ],
+        "odleglosc": 22.0
+      }
+    ]
+  },
+  {
+    "seed": 1030,
+    "powtorka": "map01_nowy_1030_20261114_234216_353128",
+    "zgon": 541,
+    "obrazenia": [
+      {
+        "tik": 519,
+        "x": 1212.9,
+        "y": -24.3,
+        "utrata_zycia": 55.0,
+        "zycie_po": 45.0,
+        "beczka": [
+          1240,
+          -72
+        ],
+        "odleglosc": 54.8
+      },
+      {
+        "tik": 541,
+        "x": 1256.9,
+        "y": -241.9,
+        "utrata_zycia": 86.0,
+        "zycie_po": -41.0,
+        "beczka": [
+          1264,
+          -224
+        ],
+        "odleglosc": 19.3
+      }
+    ]
+  },
+  {
+    "seed": 1032,
+    "powtorka": "map01_nowy_1032_20261114_234223_433693",
+    "zgon": 314,
+    "obrazenia": [
+      {
+        "tik": 298,
+        "x": 1242.7,
+        "y": -142.1,
+        "utrata_zycia": 58.0,
+        "zycie_po": 42.0,
+        "beczka": [
+          1240,
+          -72
+        ],
+        "odleglosc": 70.1
+      },
+      {
+        "tik": 314,
+        "x": 1282.4,
+        "y": -303.8,
+        "utrata_zycia": 46.0,
+        "zycie_po": -4.0,
+        "beczka": [
+          1264,
+          -224
+        ],
+        "odleglosc": 81.9
+      }
+    ]
+  },
+  {
+    "seed": 1041,
+    "powtorka": "map01_nowy_1041_20261114_234242_447670",
+    "zgon": 588,
+    "obrazenia": [
+      {
+        "tik": 371,
+        "x": 1233.2,
+        "y": -102.8,
+        "utrata_zycia": 84.0,
+        "zycie_po": 7.0,
+        "beczka": [
+          1240,
+          -72
+        ],
+        "odleglosc": 31.6
+      }
+    ]
+  },
+  {
+    "seed": 1056,
+    "powtorka": "map01_nowy_1056_20261114_234306_175644",
+    "zgon": 1154,
+    "obrazenia": [
+      {
+        "tik": 529,
+        "x": 1241.1,
+        "y": -72.9,
+        "utrata_zycia": 84.0,
+        "zycie_po": 16.0,
+        "beczka": [
+          1240,
+          -72
+        ],
+        "odleglosc": 1.4
+      }
+    ]
+  },
+  {
+    "seed": 1085,
+    "powtorka": "map01_nowy_1085_20261114_234503_761725",
+    "zgon": 1556,
+    "obrazenia": [
+      {
+        "tik": 298,
+        "x": 1272.1,
+        "y": -281.0,
+        "utrata_zycia": 68.0,
+        "zycie_po": 26.0,
+        "beczka": [
+          1264,
+          -224
+        ],
+        "odleglosc": 57.6
+      }
+    ]
+  },
+  {
+    "seed": 1092,
+    "powtorka": "map01_nowy_1092_20261114_234530_770824",
+    "zgon": 617,
+    "obrazenia": [
+      {
+        "tik": 404,
+        "x": 1256.8,
+        "y": -233.1,
+        "utrata_zycia": 86.0,
+        "zycie_po": 2.0,
+        "beczka": [
+          1264,
+          -224
+        ],
+        "odleglosc": 11.6
+      }
+    ]
+  },
+  {
+    "seed": 1144,
+    "powtorka": "map01_nowy_1144_20261114_234703_292243",
+    "zgon": 1804,
+    "obrazenia": [
+      {
+        "tik": 499,
+        "x": 1208.2,
+        "y": -1.9,
+        "utrata_zycia": 36.0,
+        "zycie_po": 45.0,
+        "beczka": [
+          1240,
+          -72
+        ],
+        "odleglosc": 77.0
+      },
+      {
+        "tik": 512,
+        "x": 1252.0,
+        "y": -125.1,
+        "utrata_zycia": 27.0,
+        "zycie_po": 18.0,
+        "beczka": [
+          1240,
+          -72
+        ],
+        "odleglosc": 54.4
+      }
+    ]
+  },
+  {
+    "seed": 1161,
+    "powtorka": "map01_nowy_1161_20261114_234840_592978",
+    "zgon": 1461,
+    "obrazenia": [
+      {
+        "tik": 460,
+        "x": 1238.3,
+        "y": -224.9,
+        "utrata_zycia": 76.0,
+        "zycie_po": 24.0,
+        "beczka": [
+          1264,
+          -224
+        ],
+        "odleglosc": 25.7
+      }
+    ]
+  }
+]

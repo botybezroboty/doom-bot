@@ -46,7 +46,7 @@ def combat(state):
     err = target.x + target.width / 2 - 160
     turn = max(-12, min(12, err * 0.18))
     fire = int(target.x <= 160 < target.x + target.width)
-    return [0 if target.width > 32 else 100, turn, 1, 0, fire], target
+    return [35 if target.width < 18 else 0, turn, 1, 0, fire], target
 
 
 def action(x, y, angle, target, tick):
@@ -105,6 +105,8 @@ def run(seed, version="nowy"):
             fixed_shotgun_reached = False
             stair_retries = 0
             abandon_shotgun = False
+            barrel_attempts = {}
+            blast_until = 0
             with dokladny_zegar():
                 while not game.is_episode_finished() and not game.is_player_dead():
                     state = game.get_state()
@@ -156,7 +158,29 @@ def run(seed, version="nowy"):
                     if gun_cooldown:
                         gun_cooldown -= 1
                     found = combat(state) if version == 'nowy' else None
-                    if found:
+                    # Beczki na trasie usuwaj z dystansu, zanim walka sprowadzi
+                    # gracza w promień wybuchu. Korzystamy tylko z widocznych pikseli.
+                    barrels = [a for a in state.labels if a.object_name == 'ExplosiveBarrel'
+                               and a.width > 0 and (state.labels_buffer == a.value).any()]
+                    # Widoczny fragment może wystawać zza ściany, przez którą
+                    # pociski nie przejdą. Po ograniczonej próbie zmień pozycję.
+                    safe_barrels = []
+                    for barrel in barrels:
+                        origin, attempts = barrel_attempts.get(barrel.object_id, ((x, y), 0))
+                        if math.dist(origin, (x, y)) > 96:
+                            origin, attempts = (x, y), 0
+                        barrel_attempts[barrel.object_id] = (origin, attempts)
+                        if 6 <= barrel.width <= 18 and attempts < 70:
+                            safe_barrels.append(barrel)
+                    aiming_barrel = version == 'nowy' and bool(safe_barrels) and ammo > 0
+                    if aiming_barrel:
+                        barrel = min(safe_barrels, key=lambda a: abs(a.x + a.width / 2 - 160))
+                        origin, attempts = barrel_attempts[barrel.object_id]
+                        barrel_attempts[barrel.object_id] = (origin, attempts + 1)
+                        err = barrel.x + barrel.width / 2 - 160
+                        cmd = [0, max(-12, min(12, err * 0.18)), 1, 0,
+                               int(barrel.x <= 160 < barrel.x + barrel.width)]
+                    elif found and ammo > 0:
                         cmd = found[0]
                     elif version == 'nowy' and waypoint >= len(route) - 2 and 200 <= x <= 232 and -690 <= y <= -642:
                         # Nie celuj w punkt za sobą: zatrzymaj się i patrz na przełącznik.
@@ -182,6 +206,16 @@ def run(seed, version="nowy"):
                                         gun_chase = 0
                                     cmd = [100 if abs(error) < 35 else 0,
                                            max(-12, min(12, error * 0.18)), 1, 0, 0]
+                    if version == 'nowy':
+                        # Wybuch i reakcja łańcuchowa trwają po zniszczeniu beczki;
+                        # podmuch może też przemieścić kolejne beczki w stronę gracza.
+                        exploding = any(a.object_name == 'DeadExplosiveBarrel'
+                                        and (state.labels_buffer == a.value).any()
+                                        for a in state.labels)
+                        if exploding or (aiming_barrel and cmd[4]):
+                            blast_until = tick + 35
+                        if tick < blast_until:
+                            cmd[0] = 0
                     # Wybór jest dozwolony, gdy HUD pokazuje broń i amunicję.
                     cmd.append(int(version == 'nowy' and shotgun and shells > 0 and weapon != 3))
                     video.write(state.screen_buffer)
