@@ -1,0 +1,12 @@
+{
+  "mapa": "MAP02",
+  "trudnosc": 3,
+  "limit": 3500,
+  "start": "nowa gra, bez ekwipunku z MAP01",
+  "bot_sha256": "e72ca8227bf23d8108c746b30cfe34eb237ade7b8f98f8c866ff93ee3d624a5d",
+  "zmiany_konfiguracji": {
+    "game.set_doom_map('MAP01')": "game.set_doom_map('MAP02')",
+    "f'map01_{version}_": "f'map02_{version}_"
+  },
+  "vizdoom": "1.3.2"
+}
