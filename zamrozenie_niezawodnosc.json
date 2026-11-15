@@ -1,0 +1,19 @@
+{
+  "utworzono": "2026-11-15T10:02:02.292567+01:00",
+  "kod_po": "2bf2a83",
+  "kod_przed": "bf1411a",
+  "vizdoom": "1.3.2",
+  "numpy": "2.5.4",
+  "freedoom_sha256": "a8772e088847032510d97ba2312406a6998f21cbab44d4ff10696faa9c0ecd4b",
+  "trudnosc": 3,
+  "limit": 3500,
+  "sha256": {
+    "bot.py": "e72ca8227bf23d8108c746b30cfe34eb237ade7b8f98f8c866ff93ee3d624a5d",
+    "bot_przed_niezawodnoscia.py": "9312afb012f0fa109ad56090f72b0028639b708e20e2730b56f6300d99a75293",
+    "seedy_niezawodnosc_odlozone.json": "cd4b70d0943dde0004122138530fa404a4d04611ae4ac1a1bc06bb8f8b5fcbc1",
+    "porownanie_nawigacja.csv": "637a9ddd3a783dd020b41ef9c8b966adb08658faa2ea4f0c163006f8917d6922",
+    "cel.md": "b4765856e58b944fb27cf6d3e8ce9107e0945516a79844e54860c0c8ffd57a90",
+    "porownaj_niezawodnosc.py": "45070b8eca9e3ac9e0517ef544656438c1f17f0924bc73c7fb3e4db0c046e696"
+  },
+  "procedura": "Odłożone 100 uruchomić dopiero po potwierdzeniu 80 znanych. Po odczytaniu wyników odłożonych nie zmieniać bota na ich podstawie. Znane: zachowane próby starej wersji i etap3 nowej, każde wyjście ponownie odtworzone. Dodatkowe 20 dawnych seedów służy wyłącznie regresji rozwojowej."
+}
