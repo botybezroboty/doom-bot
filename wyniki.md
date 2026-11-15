@@ -1,5 +1,34 @@
 # Wyniki gry ręcznej
 
+## MAP02 — ten sam bot bez poprawek (15.11.2026)
+
+20 nowych, różnych seedów silnika: **0 wyjść, 5 zgonów, 15 limitów czasu**.
+Limit 3500 tików, trudność 3, ViZDoom 1.3.2 i dołączony Freedoom 2.
+Każda próba startowała jako nowa gra na MAP02, z pistoletem i bez ekwipunku
+z MAP01. Brak ukończeń, więc mediana czasu ukończeń nie istnieje.
+
+Bot walczył z widocznymi przeciwnikami, ale jego nawigacja nadal kierowała go
+po współrzędnych MAP01. Na MAP02 te punkty nie prowadzą przez przejścia:
+na filmach widać stanie przy ścianach i powroty w te same miejsca. Żadna próba
+nie wyszła poza cel o indeksie 2 (trzeci punkt starej trasy); część zakończyła
+się śmiercią w walce, pozostałe wyczerpały limit. To próba przeniesienia
+reguł walki i stałej trasy, a nie bota potrafiącego samodzielnie planować
+przejście nieznanej mapy.
+
+`bot.py` zachował identyczną sumę SHA-256 jak po teście MAP01. Skrypt
+`proba_map02.py` zmienia wyłącznie konfigurację mapy i prefiks nazw nagrań
+w kopii kodu wykonywanej w pamięci; reguły i trasa pozostają takie same.
+Seedy: [seedy_map02.json](seedy_map02.json), konfiguracja:
+[manifest_map02.json](manifest_map02.json), wyniki każdej próby:
+[wyniki_map02.csv](wyniki_map02.csv).
+
+Sprawdzono komplet LMP/MP4/JSONL wszystkich 20 prób, seedy i MAP02 w nagłówkach
+powtórek oraz zgodność wyników z dziennikami. Wszystkie próby mają film.
+Przykład z seeda 1374 (limit czasu):
+[pełne wideo](powtorki/map02_nowy_1374_20261115_104102_530391.mp4).
+[Klatki diagnostyczne](powtorki/diagnoza_map02.png): seed 1374 w tikach
+1501 i 3001 oraz seed 1378 w tiku 580.
+
 ## Niezawodność — 80 znanych + 100 odłożonych seedów (15.11.2026)
 
 **Cel pełnej niezawodności nie został osiągnięty:** poprawiona wersja ma 179 wyjść na 180 prób. Na odłożonych seedach pozostał jeden zgon. Wszystkie 179 ukończeń nowej wersji trwało mniej niż 3027 tików; najwolniejsze 2797.
