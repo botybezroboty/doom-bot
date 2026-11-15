@@ -2,7 +2,7 @@
 
 Skryptowy bot, który przechodzi pierwszy poziom gry Freedoom 2 (MAP01) przez bibliotekę ViZDoom. Cały kod napisał agent AI na nagraniu do filmu, bez ani jednej linijki dopisanej ręcznie. To repozytorium jest stanem projektu z końca filmu razem z całą jego historią.
 
-Linki do filmu i do Discorda dodamy w dniu premiery.
+Pytania, własne boty i pomysły na kolejne: [Discord kanału Boty bez roboty](https://discord.gg/6QCNXAGntW). Link do filmu dodamy w dniu premiery.
 
 ## Co ten bot umie
 
@@ -175,6 +175,8 @@ Poprawki są mile widziane. Zrób fork, wprowadź zmianę i wyślij pull request
 - podaj wynik na seedach, na których niczego nie stroiłeś, obok wyniku obecnej wersji na tych samych seedach,
 - jedna zmiana na jeden pull request.
 
+Własnego bota, także do innej gry, pokaż na [Discordzie](https://discord.gg/6QCNXAGntW) w kanale `wasze-boty`.
+
 ## Gdy coś nie działa
 
 - `py` albo `git` „nie jest rozpoznawany jako nazwa polecenia”: zamknij PowerShell i otwórz go od nowa po instalacji. Jeśli to nie pomoże, zainstaluj program jeszcze raz (krok 2).
@@ -182,6 +184,8 @@ Poprawki są mile widziane. Zrób fork, wprowadź zmianę i wyślij pull request
 - Bot odrzuca seed z komunikatem o obcięciu seeda silnika: podaj inny numer.
 - Polskie znaki w oknie PowerShella są rozsypane: wpisz `$env:PYTHONUTF8 = "1"` przed uruchomieniem.
 - Przy starcie silnika gry na moment pojawia się jego okno. Skrypty uruchamiają silnik na osobnym, niewidocznym pulpicie, żeby go nie było widać, więc nie powinno się to zdarzać.
+
+Jeśli nic z tej listy nie pomaga, napisz na [Discordzie](https://discord.gg/6QCNXAGntW) w kanale `pomoc`. Podaj system, wersję Pythona, wpisane polecenie i cały komunikat błędu jako tekst.
 
 ## Licencja
 
