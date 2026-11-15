@@ -41,6 +41,32 @@ film dostaje w `powtorki/` nazwę `najlepsza_map01_...mp4`. Jeśli nie ma
 ukończenia, mediana i najlepszy film nie są podawane. Każda próba ma też
 własną powtórkę, film i dziennik.
 
+## Porównanie niezawodności
+
+`porownanie_niezawodnosc.csv` zawiera pary wyników starej wersji z
+`bot_przed_niezawodnoscia.py` i poprawionej `bot.py`: 80 znanych oraz 100
+seedów odłożonych przed zmianami w `seedy_niezawodnosc_odlozone.json`.
+Sumy kontrolne kodu, list i Freedooma są w `zamrozenie_niezawodnosc.json`.
+Bot usuwa widoczne beczki z dystansu, czeka na zakończenie wybuchów,
+wolniej podchodzi do przeciwników i ogranicza próby ostrzału zza ściany.
+Diagnozę dawnych dziewięciu zgonów odtwarza `diagnozuj_zgony.py`.
+
+```powershell
+.\.venv\Scripts\python.exe porownaj_niezawodnosc.py graj --seria znane --wersja przed
+.\.venv\Scripts\python.exe porownaj_niezawodnosc.py graj --seria znane --wersja po
+.\.venv\Scripts\python.exe porownaj_niezawodnosc.py graj --seria odlozone --wersja przed
+.\.venv\Scripts\python.exe porownaj_niezawodnosc.py graj --seria odlozone --wersja po
+.\.venv\Scripts\python.exe porownaj_niezawodnosc.py podsumuj
+```
+
+Skrypt wznawia osobne pliki `niezawodnosc_<seria>_<wersja>.csv`; kompletnego
+zestawu nie rozgrywa ponownie. Każde nowe wyjście odtwarza i weryfikuje,
+a każdą grę zapisuje jako LMP/MP4/JSONL. Tryb `znane --wersja po` osobno
+weryfikuje zachowane próby rozwojowe etapu 3. `proby_niezawodnosc.py`
+uruchamia próby rozwojowe i odrzuca odłożone seedy. Po końcowym teście
+odłożona lista jest już znanym zestawem, a nie nowym testem niezależnym.
+Wyniki i ograniczenia opisano w `wyniki.md`.
+
 ## Porównanie nawigacji
 
 `porownanie_nawigacja.csv` porównuje poprzednią i bieżącą wersję na 60
