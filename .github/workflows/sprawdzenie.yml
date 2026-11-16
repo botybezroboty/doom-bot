@@ -1,0 +1,120 @@
+# Sprawdzenie pull requestu: bot z pull requestu i bot z master grają na tych
+# samych seedach, a sprawdz_wszystko.py sprawdza resztę. Wynik po polsku jest
+# w podsumowaniu uruchomienia: zakładka Checks pull requestu, potem Summary.
+# Ten plik i .github/sprawdz_pr.py dodał kanał Boty bez roboty po filmie.
+name: Sprawdzenie bota
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - 'prompty/**'
+      - 'przejscia-czlowieka/**'
+      - '.github/ISSUE_TEMPLATE/**'
+
+# Kod z pull requestu z forka dostaje tylko prawo odczytu i żadnych sekretów.
+permissions:
+  contents: read
+
+# Nowy commit w tym samym pull requeście przerywa poprzednie sprawdzenie.
+concurrency:
+  group: sprawdzenie-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  czesc:
+    # Trzy części na osobnych maszynach. Na maszynie z 2 procesorami gry obok
+    # siebie szły ponad trzy razy wolniej niż jedna po drugiej.
+    name: ${{ matrix.nazwa }}
+    runs-on: windows-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - czesc: pr
+            nazwa: Gry bota z pull requestu
+          - czesc: master
+            nazwa: Gry bota z master
+          - czesc: sprawdz
+            nazwa: sprawdz_wszystko.py
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - name: Kod pull requestu
+        uses: actions/checkout@v7
+        with:
+          path: pr
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Wersja master
+        id: wersje
+        run: '"master=$(git -C pr rev-parse HEAD^1)" >> $env:GITHUB_OUTPUT'
+
+      - name: Kod master
+        if: matrix.czesc == 'master'
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.wersje.outputs.master }}
+          path: master
+          persist-credentials: false
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Instalacja jak w README
+        run: |
+          py -3.12 -m venv .venv
+          .\.venv\Scripts\python.exe -m pip install --disable-pip-version-check -r pr\requirements.txt
+
+      - name: Gry na seedach sprawdzenia
+        if: matrix.czesc != 'sprawdz'
+        run: .\.venv\Scripts\python.exe pr\.github\sprawdz_pr.py graj --wersja ${{ matrix.czesc }} --folder ${{ matrix.czesc }} --wyniki wyniki
+
+      - name: sprawdz_wszystko.py
+        if: matrix.czesc == 'sprawdz'
+        run: .\.venv\Scripts\python.exe pr\.github\sprawdz_pr.py sprawdz --folder pr --wyniki wyniki
+
+      - name: Wyniki do pobrania
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: wyniki-${{ matrix.czesc }}
+          path: wyniki
+          retention-days: 14
+          if-no-files-found: ignore
+
+  podsumowanie:
+    name: Podsumowanie
+    needs: czesc
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Kod pull requestu
+        uses: actions/checkout@v7
+        with:
+          path: pr
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Wyniki części
+        uses: actions/download-artifact@v8
+        with:
+          pattern: wyniki-*
+          path: wyniki
+          merge-multiple: true
+
+      - name: Tabela w podsumowaniu
+        run: |
+          git -C pr diff --name-only HEAD^1 HEAD > zmiany.txt
+          python3 pr/.github/sprawdz_pr.py podsumuj --wyniki wyniki --zmiany zmiany.txt \
+            --numer "${{ github.event.pull_request.number }}" \
+            --pr-sha "${{ github.event.pull_request.head.sha }}" \
+            --master-sha "$(git -C pr rev-parse HEAD^1)"
