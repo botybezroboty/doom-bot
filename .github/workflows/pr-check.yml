@@ -10,8 +10,8 @@ on:
     paths-ignore:
       - '**.md'
       - 'LICENSE'
-      - 'prompty/**'
-      - 'przejscia-czlowieka/**'
+      - 'prompts/**'
+      - 'human-runs/**'
       - '.github/ISSUE_TEMPLATE/**'
 
 # Code from a fork's pull request gets read access only and no secrets.

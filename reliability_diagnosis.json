@@ -1,0 +1,209 @@
+[
+  {
+    "seed": 1010,
+    "replay": "map01_nowy_1010_20261114_234122_996787",
+    "death": 540,
+    "damage": [
+      {
+        "tic": 540,
+        "x": 871.3,
+        "y": 67.3,
+        "health_lost": 127.0,
+        "health_after": -45.0,
+        "barrel": [
+          864,
+          88
+        ],
+        "distance": 22.0
+      }
+    ]
+  },
+  {
+    "seed": 1030,
+    "replay": "map01_nowy_1030_20261114_234216_353128",
+    "death": 541,
+    "damage": [
+      {
+        "tic": 519,
+        "x": 1212.9,
+        "y": -24.3,
+        "health_lost": 55.0,
+        "health_after": 45.0,
+        "barrel": [
+          1240,
+          -72
+        ],
+        "distance": 54.8
+      },
+      {
+        "tic": 541,
+        "x": 1256.9,
+        "y": -241.9,
+        "health_lost": 86.0,
+        "health_after": -41.0,
+        "barrel": [
+          1264,
+          -224
+        ],
+        "distance": 19.3
+      }
+    ]
+  },
+  {
+    "seed": 1032,
+    "replay": "map01_nowy_1032_20261114_234223_433693",
+    "death": 314,
+    "damage": [
+      {
+        "tic": 298,
+        "x": 1242.7,
+        "y": -142.1,
+        "health_lost": 58.0,
+        "health_after": 42.0,
+        "barrel": [
+          1240,
+          -72
+        ],
+        "distance": 70.1
+      },
+      {
+        "tic": 314,
+        "x": 1282.4,
+        "y": -303.8,
+        "health_lost": 46.0,
+        "health_after": -4.0,
+        "barrel": [
+          1264,
+          -224
+        ],
+        "distance": 81.9
+      }
+    ]
+  },
+  {
+    "seed": 1041,
+    "replay": "map01_nowy_1041_20261114_234242_447670",
+    "death": 588,
+    "damage": [
+      {
+        "tic": 371,
+        "x": 1233.2,
+        "y": -102.8,
+        "health_lost": 84.0,
+        "health_after": 7.0,
+        "barrel": [
+          1240,
+          -72
+        ],
+        "distance": 31.6
+      }
+    ]
+  },
+  {
+    "seed": 1056,
+    "replay": "map01_nowy_1056_20261114_234306_175644",
+    "death": 1154,
+    "damage": [
+      {
+        "tic": 529,
+        "x": 1241.1,
+        "y": -72.9,
+        "health_lost": 84.0,
+        "health_after": 16.0,
+        "barrel": [
+          1240,
+          -72
+        ],
+        "distance": 1.4
+      }
+    ]
+  },
+  {
+    "seed": 1085,
+    "replay": "map01_nowy_1085_20261114_234503_761725",
+    "death": 1556,
+    "damage": [
+      {
+        "tic": 298,
+        "x": 1272.1,
+        "y": -281.0,
+        "health_lost": 68.0,
+        "health_after": 26.0,
+        "barrel": [
+          1264,
+          -224
+        ],
+        "distance": 57.6
+      }
+    ]
+  },
+  {
+    "seed": 1092,
+    "replay": "map01_nowy_1092_20261114_234530_770824",
+    "death": 617,
+    "damage": [
+      {
+        "tic": 404,
+        "x": 1256.8,
+        "y": -233.1,
+        "health_lost": 86.0,
+        "health_after": 2.0,
+        "barrel": [
+          1264,
+          -224
+        ],
+        "distance": 11.6
+      }
+    ]
+  },
+  {
+    "seed": 1144,
+    "replay": "map01_nowy_1144_20261114_234703_292243",
+    "death": 1804,
+    "damage": [
+      {
+        "tic": 499,
+        "x": 1208.2,
+        "y": -1.9,
+        "health_lost": 36.0,
+        "health_after": 45.0,
+        "barrel": [
+          1240,
+          -72
+        ],
+        "distance": 77.0
+      },
+      {
+        "tic": 512,
+        "x": 1252.0,
+        "y": -125.1,
+        "health_lost": 27.0,
+        "health_after": 18.0,
+        "barrel": [
+          1240,
+          -72
+        ],
+        "distance": 54.4
+      }
+    ]
+  },
+  {
+    "seed": 1161,
+    "replay": "map01_nowy_1161_20261114_234840_592978",
+    "death": 1461,
+    "damage": [
+      {
+        "tic": 460,
+        "x": 1238.3,
+        "y": -224.9,
+        "health_lost": 76.0,
+        "health_after": 24.0,
+        "barrel": [
+          1264,
+          -224
+        ],
+        "distance": 25.7
+      }
+    ]
+  }
+]

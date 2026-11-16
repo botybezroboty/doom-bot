@@ -1,6 +1,6 @@
 # Bot do Dooma z kanału Boty bez roboty
 
-Skryptowy bot, który przechodzi pierwszy poziom gry Freedoom 2 (MAP01) przez bibliotekę ViZDoom. Cały kod napisał agent AI na nagraniu do filmu, bez ani jednej linijki dopisanej ręcznie. To repozytorium jest stanem projektu z końca filmu razem z całą jego historią.
+Skryptowy bot, który przechodzi pierwszy poziom gry Freedoom 2 (MAP01) przez bibliotekę ViZDoom. Cały kod napisał agent AI na nagraniu do filmu. To repozytorium jest stanem projektu z końca filmu razem z całą jego historią, z jedną zmianą: po filmie przetłumaczyliśmy na angielski nazwy plików, kod i komentarze, bez zmiany działania (te same seedy dają te same gry co do tiku). Stan z filmu, z polskimi nazwami, jest pod tagiem `etap-8`, a tabela starych i nowych nazw w [prompts/README.md](prompts/README.md).
 
 Pytania, własne boty i pomysły na kolejne: [Discord kanału Boty bez roboty](https://discord.gg/6QCNXAGntW). Link do filmu dodamy w dniu premiery.
 
@@ -10,7 +10,7 @@ Pytania, własne boty i pomysły na kolejne: [Discord kanału Boty bez roboty](h
 - Na seedach, których nie widział przy poprawkach, dochodzi do wyjścia w 98-99 grach na 100.
 - Na drugim poziomie (MAP02) nie dochodzi do wyjścia ani razu na 20 gier. Zna na pamięć tylko pierwszy poziom.
 
-To zwykły skrypt z regułami. Nie ma w nim uczenia maszynowego ani modelu AI działającego w trakcie gry. Zasady pojedynku, czyli co botowi wolno wiedzieć, są w [cel.md](cel.md): może znać poziom na pamięć jak doświadczony gracz, a w trakcie gry korzysta z tego, co widać na ekranie, i z własnej pozycji.
+To zwykły skrypt z regułami. Nie ma w nim uczenia maszynowego ani modelu AI działającego w trakcie gry. Zasady pojedynku, czyli co botowi wolno wiedzieć, są w [goal.md](goal.md): może znać poziom na pamięć jak doświadczony gracz, a w trakcie gry korzysta z tego, co widać na ekranie, i z własnej pozycji.
 
 | Seedy | Wyjścia przed ostatnią poprawką | Wyjścia po niej |
 |---|---:|---:|
@@ -18,7 +18,7 @@ To zwykły skrypt z regułami. Nie ma w nim uczenia maszynowego ani modelu AI dz
 | 100 odłożonych przez agenta przed poprawką | 87 | 99 |
 | 100 niezależnych (sprawdzenie poza nagraniem) | 86 | 98 |
 
-Wszystkie pomiary agenta są w [wyniki.md](wyniki.md).
+Wszystkie pomiary agenta są w [results.md](results.md).
 
 ## Uruchomienie krok po kroku
 
@@ -73,18 +73,18 @@ Pierwsze polecenie tworzy w folderze projektu osobne środowisko Pythona (`.venv
 Gra działa bez okna i trwa kilka sekund. Na końcu zobaczysz linię podobną do tej:
 
 ```
-1002 wyjscie 2209 map01_nowy_1002_20261115_095802_497024
+1002 exit 2209 map01_new_1002_20261115_095802_497024
 ```
 
-Po kolei: seed, czyli numer gry, od którego zależy zachowanie potworów, potem wynik (`wyjscie`, `zgon` albo `limit`, gdy skończył się czas), liczba tików gry (35 tików to sekunda) i nazwa plików tej gry.
+Po kolei: seed, czyli numer gry, od którego zależy zachowanie potworów, potem wynik (`exit` to wyjście z poziomu, `death` to zgon, `timeout` to koniec czasu), liczba tików gry (35 tików to sekunda) i nazwa plików tej gry.
 
 ### 6. Obejrzyj, co bot zrobił
 
 ```powershell
-explorer powtorki
+explorer replays
 ```
 
-W folderze `powtorki` każda gra ma trzy pliki:
+W folderze `replays` każda gra ma trzy pliki:
 
 - `.mp4`: film z gry, otwórz go dwuklikiem,
 - `.lmp`: powtórka, z której gra odtworzy całe przejście,
@@ -104,18 +104,18 @@ cd C:\doom-bot
 ## Sprawdzenie wszystkiego jednym poleceniem
 
 ```powershell
-.\.venv\Scripts\python.exe sprawdz_wszystko.py
+.\.venv\Scripts\python.exe check_all.py
 ```
 
-Trwa około trzech i pół minuty. Uruchamia testy celowania, 20 par gier na arenie `defend_the_center` (bot celujący przeciw losowemu) i 20 gier na MAP01 na nowych seedach. Na końcu podaje liczbę wyjść, zgonów i medianę czasu, a najlepszą grę zapisuje jako film. Uwaga: polecenie nadpisuje pliki `dowod_center.csv` i `dowod_map01.csv`.
+Trwa około trzech i pół minuty. Uruchamia testy celowania, 20 par gier na arenie `defend_the_center` (bot celujący przeciw losowemu) i 20 gier na MAP01 na nowych seedach. Na końcu podaje liczbę wyjść, zgonów i medianę czasu, a najlepszą grę zapisuje jako film. Uwaga: polecenie nadpisuje pliki `proof_center.csv` i `proof_map01.csv`.
 
 ## Zagraj sam
 
 ```powershell
-.\.venv\Scripts\python.exe graj_recznie.py
+.\.venv\Scripts\python.exe play_manually.py
 ```
 
-Otwiera okno, w którym przechodzisz MAP01 na klawiaturze i myszy, a program mierzy czas do naciśnięcia przełącznika wyjścia. Dwa przejścia z filmu leżą w folderze [przejscia-czlowieka](przejscia-czlowieka).
+Otwiera okno, w którym przechodzisz MAP01 na klawiaturze i myszy, a program mierzy czas do naciśnięcia przełącznika wyjścia. Dwa przejścia z filmu leżą w folderze [human-runs](human-runs).
 
 ## Zmień coś w bocie
 
@@ -129,7 +129,7 @@ Po zmianie puść bota na kilku seedach i porównaj wyniki ze starą wersją na 
 
 ## Praca z agentem AI
 
-Bot powstał w aplikacji Codex, ale możesz użyć dowolnego agenta, który pracuje na plikach w folderze. Otwórz w nim folder projektu i pisz, co widzisz i czego chcesz. Zasady, których agent ma się trzymać, są w `AGENTS.md`. Wszystkie prompty z filmu, po kolei i z wynikiem każdego, leżą w [prompty/README.md](prompty/README.md).
+Bot powstał w aplikacji Codex, ale możesz użyć dowolnego agenta, który pracuje na plikach w folderze. Otwórz w nim folder projektu i pisz, co widzisz i czego chcesz. Zasady, których agent ma się trzymać, są w `AGENTS.md`. Wszystkie prompty z filmu, po kolei i z wynikiem każdego, leżą w [prompts/README.md](prompts/README.md).
 
 Dwie rady z filmu: każ agentowi pytać o zgodę, zanim zrobi coś poza folderem projektu, i nie wierz samemu raportowi. Obejrzyj film z gry.
 
@@ -139,17 +139,17 @@ Dwie rady z filmu: każ agentowi pytać o zgodę, zanim zrobi coś poza folderem
 |---|---|
 | `bot.py` | bot do MAP01: trasa, walka, zbieranie, beczki |
 | `defend_the_center.py` | pierwszy bot, na prostej arenie, i bot losowy do porównania |
-| `sprawdz_wszystko.py` | jedno polecenie, które sprawdza oba |
-| `graj_recznie.py` | tryb, w którym grasz sam |
-| `cel.md` | cel i zasady pojedynku |
-| `wyniki.md` | wszystkie wyniki i diagnozy zapisane przez agenta |
+| `check_all.py` | jedno polecenie, które sprawdza oba |
+| `play_manually.py` | tryb, w którym grasz sam |
+| `goal.md` | cel i zasady pojedynku |
+| `results.md` | wszystkie wyniki i diagnozy zapisane przez agenta |
 | `AGENTS.md` | zasady projektu dla agenta AI |
-| `NOTATKI-AGENTA.md` | opis projektu napisany przez agenta w trakcie pracy |
-| `prompty/` | wszystkie prompty z filmu, po kolei, z wynikiem każdego |
-| `przejscia-czlowieka/` | dwie powtórki ręcznych przejść |
-| `porownanie_*.csv`, `niezawodnosc_*.csv`, `seedy_*.json` | tabele i listy seedów z kolejnych porównań |
+| `AGENT-NOTES.md` | opis projektu napisany przez agenta w trakcie pracy |
+| `prompts/` | wszystkie prompty z filmu, po kolei, z wynikiem każdego |
+| `human-runs/` | dwie powtórki ręcznych przejść |
+| `comparison_*.csv`, `reliability_*.csv`, `seeds_*.json` | tabele i listy seedów z kolejnych porównań |
 
-Skrypty `porownaj_demony.py`, `porownaj_amunicje.py`, `porownaj_trzy.py`, `porownaj_strzelbe_final.py`, `diagnozuj_zgony.py` i część `porownaj_niezawodnosc.py` czytają powtórki z nagrań do filmu. Tych plików nie ma w repozytorium, bo zajmują kilka gigabajtów, więc te skrypty zgłoszą brak pliku. `proba_map02.py` celowo odmawia działania, gdy `bot.py` został zmieniony.
+Skrypty `compare_demons.py`, `compare_ammo.py`, `compare_three.py`, `compare_shotgun_final.py`, `diagnose_deaths.py` i część `compare_reliability.py` czytają powtórki z nagrań do filmu. Tych plików nie ma w repozytorium, bo zajmują kilka gigabajtów, więc te skrypty zgłoszą brak pliku. `trial_map02.py` celowo odmawia działania, gdy `bot.py` został zmieniony.
 
 ## Historia krok po kroku
 
@@ -161,7 +161,7 @@ git checkout krok-7c    # bot przed poprawką z beczkami
 git checkout master     # stan końcowy
 ```
 
-Tagi po kolei: `etap-1`, `etap-2`, `etap-3`, `krok-3b`, `krok-3d`, `etap-4`, `krok-4b`, `etap-5`, `krok-4c`, `krok-4d`, `etap-6`, `krok-6b`, `krok-6c`, `etap-7`, `krok-7b`, `krok-7c`, `krok-7d`, `etap-8`. Który prompt doprowadził do którego tagu, jest w [prompty/README.md](prompty/README.md).
+Tagi po kolei: `etap-1`, `etap-2`, `etap-3`, `krok-3b`, `krok-3d`, `etap-4`, `krok-4b`, `etap-5`, `krok-4c`, `krok-4d`, `etap-6`, `krok-6b`, `krok-6c`, `etap-7`, `krok-7b`, `krok-7c`, `krok-7d`, `etap-8`. Który prompt doprowadził do którego tagu, jest w [prompts/README.md](prompts/README.md). Pod tagami pliki mają polskie nazwy z filmu; angielskie są od zmiany po filmie.
 
 ## Zadania dla Was
 
@@ -171,7 +171,7 @@ Tagi po kolei: `etap-1`, `etap-2`, `etap-3`, `krok-3b`, `krok-3d`, `etap-4`, `kr
 
 Poprawki są mile widziane. Zrób fork, wprowadź zmianę i wyślij pull request. Jak zmierzyć zmianę i co wpisać w pull requeście, jest w [CONTRIBUTING.md](CONTRIBUTING.md). Trzy prośby:
 
-- trzymaj się zasad z `cel.md` albo napisz wprost, którą zmieniasz i dlaczego,
+- trzymaj się zasad z `goal.md` albo napisz wprost, którą zmieniasz i dlaczego,
 - podaj wynik na seedach, na których niczego nie stroiłeś, obok wyniku obecnej wersji na tych samych seedach,
 - jedna zmiana na jeden pull request.
 
@@ -180,7 +180,7 @@ Własnego bota, także do innej gry, pokaż na [Discordzie](https://discord.gg/6
 ## Gdy coś nie działa
 
 - `py` albo `git` „nie jest rozpoznawany jako nazwa polecenia”: zamknij PowerShell i otwórz go od nowa po instalacji. Jeśli to nie pomoże, zainstaluj program jeszcze raz (krok 2).
-- Gra się zawiesza albo w folderze `powtorki` nie ma powtórki: projekt leży w długiej ścieżce albo w ścieżce ze spacją. Przenieś go na przykład do `C:\doom-bot`. Autorzy ViZDoom przygotowali już poprawki tego błędu, wejdą do kolejnej wersji biblioteki.
+- Gra się zawiesza albo w folderze `replays` nie ma powtórki: projekt leży w długiej ścieżce albo w ścieżce ze spacją. Przenieś go na przykład do `C:\doom-bot`. Autorzy ViZDoom przygotowali już poprawki tego błędu, wejdą do kolejnej wersji biblioteki.
 - Bot odrzuca seed z komunikatem o obcięciu seeda silnika: podaj inny numer.
 - Polskie znaki w oknie PowerShella są rozsypane: wpisz `$env:PYTHONUTF8 = "1"` przed uruchomieniem.
 - Przy starcie silnika gry na moment pojawia się jego okno. Skrypty uruchamiają silnik na osobnym, niewidocznym pulpicie, żeby go nie było widać, więc nie powinno się to zdarzać.

@@ -14,7 +14,7 @@
 ## Lista kontrolna
 
 - [ ] To jedna zmiana.
-- [ ] `sprawdz_wszystko.py` przechodzi.
-- [ ] Trzymam się zasad z `cel.md` albo piszę wyżej, którą zmieniam i dlaczego.
-- [ ] Nie dodaję plików z `powtorki`, filmów ani zmienionych `dowod_center.csv` i `dowod_map01.csv`.
+- [ ] `check_all.py` przechodzi.
+- [ ] Trzymam się zasad z `goal.md` albo piszę wyżej, którą zmieniam i dlaczego.
+- [ ] Nie dodaję plików z `replays`, filmów ani zmienionych `proof_center.csv` i `proof_map01.csv`.
 - [ ] Obejrzałem film przynajmniej z jednej gry po zmianie.
