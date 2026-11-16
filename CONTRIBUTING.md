@@ -81,7 +81,7 @@ Możesz pracować z agentem AI, tak powstał cały ten bot. Wynik musisz jednak 
 
 ## Automatyczne sprawdzenie
 
-Każdy pull request, który zmienia coś więcej niż instrukcje, sprawdza GitHub Actions na Windowsie. Trzy osobne maszyny robią naraz trzy rzeczy:
+Każdy pull request, który zmienia coś więcej niż instrukcje, sprawdza GitHub Actions na Windowsie. Trwa to około 10 minut, a trzy osobne maszyny robią naraz trzy rzeczy:
 
 - bot z Twojego pull requestu gra na 40 stałych seedach,
 - bot z `master` gra na tych samych seedach,

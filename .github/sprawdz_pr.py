@@ -32,7 +32,7 @@ from pathlib import Path
 
 PIERWSZY_SEED = 8001
 LICZBA_SEEDOW = 40
-LIMIT_GRY_S = 300  # jedna gra trwa na runnerze GitHuba około 10 s
+LIMIT_GRY_S = 120  # gra trwa na maszynie GitHuba 10-13 s, gra do limitu 3500 tików około 20 s
 LIMIT_SPRAWDZ_S = 15 * 60
 MAKS_FILMOW = 5  # filmy z przegranych gier jednej wersji, dołączane do wyników
 WERSJE = ('master', 'pr')
