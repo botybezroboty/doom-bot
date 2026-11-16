@@ -99,7 +99,7 @@ Seedy sprawdzenia to 40 pierwszych numerów od 8001, które `bot.py` przyjmuje: 
 
 Ten sam seed i ten sam kod dają tę samą grę co do tiku, także na maszynach GitHuba. Grę, która w sprawdzeniu skończyła się inaczej niż u Ciebie, powtórzysz poleceniem `.\.venv\Scripts\python.exe bot.py SEED`.
 
-Pliki sprawdzenia (`.github/workflows/sprawdzenie.yml`, `.github/sprawdz_pr.py`) zmieniaj tylko osobnym pull requestem. Gdy pull request je zmienia, liczby w podsumowaniu liczy jego własny kod, więc nie traktujemy ich jak niezależnego pomiaru.
+Pliki sprawdzenia (`.github/workflows/pr-check.yml`, `.github/pr_check.py`) zmieniaj tylko osobnym pull requestem. Gdy pull request je zmienia, liczby w podsumowaniu liczy jego własny kod, więc nie traktujemy ich jak niezależnego pomiaru.
 
 ## Jak oceniamy
 

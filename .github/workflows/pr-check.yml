@@ -1,0 +1,123 @@
+# Pull request check: the bot of the pull request and the bot of master play the
+# same seeds, and the project's check script tests the rest. The Polish summary is
+# on the run's page: the pull request's Checks tab, then Summary.
+# The channel Boty bez roboty added this file and .github/pr_check.py after the film.
+# Names shown on GitHub (workflow, jobs, steps) are in Polish, like the documentation.
+name: Sprawdzenie bota
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - 'prompty/**'
+      - 'przejscia-czlowieka/**'
+      - '.github/ISSUE_TEMPLATE/**'
+
+# Code from a fork's pull request gets read access only and no secrets.
+permissions:
+  contents: read
+
+# A new commit in the same pull request cancels the check still running for it.
+concurrency:
+  group: pr-check-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  part:
+    # Three parts on separate machines. On a machine with 2 CPUs, games run side by
+    # side were more than three times slower than one after another.
+    name: ${{ matrix.title }}
+    runs-on: windows-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - part: pr
+            title: Gry bota z pull requestu
+          - part: master
+            title: Gry bota z master
+          - part: check-all
+            title: Skrypt sprawdzający projektu
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - name: Kod pull requestu
+        uses: actions/checkout@v7
+        with:
+          path: pr
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Wersja master
+        id: versions
+        run: '"master=$(git -C pr rev-parse HEAD^1)" >> $env:GITHUB_OUTPUT'
+
+      - name: Kod master
+        if: matrix.part == 'master'
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.versions.outputs.master }}
+          path: master
+          persist-credentials: false
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Instalacja jak w README
+        run: |
+          py -3.12 -m venv .venv
+          .\.venv\Scripts\python.exe -m pip install --disable-pip-version-check -r pr\requirements.txt
+
+      - name: Gry na seedach sprawdzenia
+        if: matrix.part != 'check-all'
+        # One game at a time, as measured on a machine with 2 CPUs. The check script takes
+        # longest anyway (about 9 minutes), so faster games would not shorten the check.
+        run: .\.venv\Scripts\python.exe pr\.github\pr_check.py play --side ${{ matrix.part }} --folder ${{ matrix.part }} --results results --parallel 1
+
+      - name: Skrypt sprawdzający projektu
+        if: matrix.part == 'check-all'
+        run: .\.venv\Scripts\python.exe pr\.github\pr_check.py check-all --folder pr --results results
+
+      - name: Wyniki do pobrania
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: results-${{ matrix.part }}
+          path: results
+          retention-days: 14
+          if-no-files-found: ignore
+
+  summary:
+    name: Podsumowanie
+    needs: part
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Kod pull requestu
+        uses: actions/checkout@v7
+        with:
+          path: pr
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Wyniki części
+        uses: actions/download-artifact@v8
+        with:
+          pattern: results-*
+          path: results
+          merge-multiple: true
+
+      - name: Tabela w podsumowaniu
+        run: |
+          git -C pr diff --name-only HEAD^1 HEAD > changed-files.txt
+          python3 pr/.github/pr_check.py summary --results results --changed-files changed-files.txt \
+            --number "${{ github.event.pull_request.number }}" \
+            --pr-sha "${{ github.event.pull_request.head.sha }}" \
+            --master-sha "$(git -C pr rev-parse HEAD^1)"
