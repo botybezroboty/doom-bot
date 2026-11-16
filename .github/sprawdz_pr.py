@@ -32,7 +32,7 @@ from pathlib import Path
 
 PIERWSZY_SEED = 8001
 LICZBA_SEEDOW = 40
-LIMIT_GRY_S = 120  # gra trwa na maszynie GitHuba 10-13 s, gra do limitu 3500 tików około 20 s
+LIMIT_GRY_S = 120  # gra trwa na maszynie GitHuba 8-20 s, gra do limitu 3500 tików około 25 s
 LIMIT_SPRAWDZ_S = 15 * 60
 MAKS_FILMOW = 5  # filmy z przegranych gier jednej wersji, dołączane do wyników
 WERSJE = ('master', 'pr')
@@ -197,6 +197,10 @@ def liczba(x: float, miejsc: int = 1) -> str:
     return f'{x:.{miejsc}f}'.replace('.', ',')
 
 
+def p_tekst(p: float) -> str:
+    return 'p < 0,001' if p < 0.001 else f'p = {liczba(p, 3)}'
+
+
 def czas(sekundy: float | None) -> str:
     if sekundy is None:
         return '?'
@@ -246,7 +250,7 @@ def werdykt(master: dict, pr: dict) -> tuple[str, list[str], bool]:
     if lepiej or gorzej:
         pewnosc = 'raczej nie przypadek' if p_wyj < 0.05 else 'to może być przypadek'
         linie.append(f'Wyjścia: ten pull request wychodzi tam, gdzie master nie, na {lepiej} seedach, '
-                     f'a master tam, gdzie on nie, na {gorzej} ({pewnosc}: p = {liczba(p_wyj, 3)} w teście znaków).')
+                     f'a master tam, gdzie on nie, na {gorzej} ({pewnosc}: {p_tekst(p_wyj)} w teście znaków).')
     else:
         linie.append('Wyjścia: w obu wersjach wyjściem kończą się te same seedy.')
     if oba and (szybciej or wolniej):
@@ -254,7 +258,7 @@ def werdykt(master: dict, pr: dict) -> tuple[str, list[str], bool]:
         pewnosc = 'raczej nie przypadek' if p_czas < 0.05 else 'to może być przypadek'
         linie.append(f'Czas na {len(oba)} seedach z wyjściem w obu wersjach: szybciej na {szybciej}, wolniej na {wolniej}, '
                      f'tak samo na {len(oba) - szybciej - wolniej}; mediana różnicy {statistics.median(roznice):+g} tików '
-                     f'({pewnosc}: p = {liczba(p_czas, 3)}).')
+                     f'({pewnosc}: {p_tekst(p_czas)}).')
 
     if not rozne:
         return f'Bez zmian: na wszystkich {len(wspolne)} seedach ten sam wynik i ta sama liczba tików co master', linie, False
