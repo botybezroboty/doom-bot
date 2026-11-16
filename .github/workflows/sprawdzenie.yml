@@ -75,7 +75,9 @@ jobs:
 
       - name: Gry na seedach sprawdzenia
         if: matrix.czesc != 'sprawdz'
-        run: .\.venv\Scripts\python.exe pr\.github\sprawdz_pr.py graj --wersja ${{ matrix.czesc }} --folder ${{ matrix.czesc }} --wyniki wyniki
+        # Po jednej grze naraz, jak zmierzono na maszynie z 2 procesorami. Najdłużej
+        # i tak trwa sprawdz_wszystko.py (około 9 minut), więc szybsze gry nic nie dają.
+        run: .\.venv\Scripts\python.exe pr\.github\sprawdz_pr.py graj --wersja ${{ matrix.czesc }} --folder ${{ matrix.czesc }} --wyniki wyniki --rownolegle 1
 
       - name: sprawdz_wszystko.py
         if: matrix.czesc == 'sprawdz'
