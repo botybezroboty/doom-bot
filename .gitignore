@@ -2,9 +2,9 @@
 __pycache__/
 *.py[cod]
 _vizdoom.ini
-recznie_runtime.ini
-powtorki/*.lmp
-powtorki/*.jsonl
-powtorki/*.avi
-powtorki/*.mp4
-wynik-*.txt
+manual_runtime.ini
+replays/*.lmp
+replays/*.jsonl
+replays/*.avi
+replays/*.mp4
+result-*.txt

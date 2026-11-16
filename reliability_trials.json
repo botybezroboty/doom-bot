@@ -1,0 +1,642 @@
+[
+  {
+    "version": "new",
+    "seed": 1001,
+    "engine_seed": 1315257197,
+    "outcome": "exit",
+    "tics": 1425,
+    "replay": "map01_nowy_1001_20261115_094548_397152"
+  },
+  {
+    "version": "new",
+    "seed": 1002,
+    "engine_seed": 554000487,
+    "outcome": "exit",
+    "tics": 2103,
+    "replay": "map01_nowy_1002_20261115_094552_371793"
+  },
+  {
+    "version": "new",
+    "seed": 1004,
+    "engine_seed": 167296002,
+    "outcome": "exit",
+    "tics": 1333,
+    "replay": "map01_nowy_1004_20261115_094557_631841"
+  },
+  {
+    "version": "new",
+    "seed": 1010,
+    "engine_seed": 1693318692,
+    "outcome": "exit",
+    "tics": 1537,
+    "replay": "map01_nowy_1010_20261115_094601_300801"
+  },
+  {
+    "version": "new",
+    "seed": 1012,
+    "engine_seed": 114801722,
+    "outcome": "exit",
+    "tics": 1365,
+    "replay": "map01_nowy_1012_20261115_094605_332551"
+  },
+  {
+    "version": "new",
+    "seed": 1014,
+    "engine_seed": 995570965,
+    "outcome": "exit",
+    "tics": 1643,
+    "replay": "map01_nowy_1014_20261115_094609_126916"
+  },
+  {
+    "version": "new",
+    "seed": 1017,
+    "engine_seed": 483336231,
+    "outcome": "exit",
+    "tics": 1345,
+    "replay": "map01_nowy_1017_20261115_094613_480735"
+  },
+  {
+    "version": "new",
+    "seed": 1018,
+    "engine_seed": 347752761,
+    "outcome": "exit",
+    "tics": 1481,
+    "replay": "map01_nowy_1018_20261115_094617_147124"
+  },
+  {
+    "version": "new",
+    "seed": 1019,
+    "engine_seed": 1391222853,
+    "outcome": "exit",
+    "tics": 1511,
+    "replay": "map01_nowy_1019_20261115_094621_052538"
+  },
+  {
+    "version": "new",
+    "seed": 1022,
+    "engine_seed": 587566476,
+    "outcome": "exit",
+    "tics": 1429,
+    "replay": "map01_nowy_1022_20261115_094625_141337"
+  },
+  {
+    "version": "new",
+    "seed": 1026,
+    "engine_seed": 1510312083,
+    "outcome": "exit",
+    "tics": 1269,
+    "replay": "map01_nowy_1026_20261115_094629_137123"
+  },
+  {
+    "version": "new",
+    "seed": 1027,
+    "engine_seed": 470312874,
+    "outcome": "exit",
+    "tics": 1465,
+    "replay": "map01_nowy_1027_20261115_094632_722065"
+  },
+  {
+    "version": "new",
+    "seed": 1029,
+    "engine_seed": 176264842,
+    "outcome": "exit",
+    "tics": 1415,
+    "replay": "map01_nowy_1029_20261115_094636_717215"
+  },
+  {
+    "version": "new",
+    "seed": 1030,
+    "engine_seed": 1954483801,
+    "outcome": "exit",
+    "tics": 2137,
+    "replay": "map01_nowy_1030_20261115_094640_619992"
+  },
+  {
+    "version": "new",
+    "seed": 1031,
+    "engine_seed": 4372149,
+    "outcome": "exit",
+    "tics": 1739,
+    "replay": "map01_nowy_1031_20261115_094645_946399"
+  },
+  {
+    "version": "new",
+    "seed": 1032,
+    "engine_seed": 1835160792,
+    "outcome": "exit",
+    "tics": 1691,
+    "replay": "map01_nowy_1032_20261115_094650_558469"
+  },
+  {
+    "version": "new",
+    "seed": 1033,
+    "engine_seed": 2091360538,
+    "outcome": "exit",
+    "tics": 1669,
+    "replay": "map01_nowy_1033_20261115_094654_895688"
+  },
+  {
+    "version": "new",
+    "seed": 1035,
+    "engine_seed": 54374432,
+    "outcome": "exit",
+    "tics": 1357,
+    "replay": "map01_nowy_1035_20261115_094659_422964"
+  },
+  {
+    "version": "new",
+    "seed": 1039,
+    "engine_seed": 1952324571,
+    "outcome": "exit",
+    "tics": 1607,
+    "replay": "map01_nowy_1039_20261115_094703_168992"
+  },
+  {
+    "version": "new",
+    "seed": 1041,
+    "engine_seed": 93081577,
+    "outcome": "exit",
+    "tics": 1501,
+    "replay": "map01_nowy_1041_20261115_094707_426765"
+  },
+  {
+    "version": "new",
+    "seed": 1042,
+    "engine_seed": 1375735468,
+    "outcome": "death",
+    "tics": 2663,
+    "replay": "map01_nowy_1042_20261115_094711_529428"
+  },
+  {
+    "version": "new",
+    "seed": 1044,
+    "engine_seed": 497154646,
+    "outcome": "exit",
+    "tics": 1429,
+    "replay": "map01_nowy_1044_20261115_094718_354910"
+  },
+  {
+    "version": "new",
+    "seed": 1046,
+    "engine_seed": 7579238,
+    "outcome": "exit",
+    "tics": 1379,
+    "replay": "map01_nowy_1046_20261115_094722_207098"
+  },
+  {
+    "version": "new",
+    "seed": 1055,
+    "engine_seed": 1538716746,
+    "outcome": "exit",
+    "tics": 2047,
+    "replay": "map01_nowy_1055_20261115_094725_937970"
+  },
+  {
+    "version": "new",
+    "seed": 1056,
+    "engine_seed": 1641155751,
+    "outcome": "exit",
+    "tics": 1763,
+    "replay": "map01_nowy_1056_20261115_094731_189407"
+  },
+  {
+    "version": "new",
+    "seed": 1057,
+    "engine_seed": 1491642672,
+    "outcome": "exit",
+    "tics": 1967,
+    "replay": "map01_nowy_1057_20261115_094735_775505"
+  },
+  {
+    "version": "new",
+    "seed": 1058,
+    "engine_seed": 719392921,
+    "outcome": "exit",
+    "tics": 1533,
+    "replay": "map01_nowy_1058_20261115_094740_674696"
+  },
+  {
+    "version": "new",
+    "seed": 1059,
+    "engine_seed": 1511285976,
+    "outcome": "exit",
+    "tics": 1845,
+    "replay": "map01_nowy_1059_20261115_094744_869735"
+  },
+  {
+    "version": "new",
+    "seed": 1061,
+    "engine_seed": 1786531403,
+    "outcome": "exit",
+    "tics": 1523,
+    "replay": "map01_nowy_1061_20261115_094749_603815"
+  },
+  {
+    "version": "new",
+    "seed": 1063,
+    "engine_seed": 1367536781,
+    "outcome": "exit",
+    "tics": 1405,
+    "replay": "map01_nowy_1063_20261115_094753_675987"
+  },
+  {
+    "version": "new",
+    "seed": 1064,
+    "engine_seed": 1361348124,
+    "outcome": "exit",
+    "tics": 1451,
+    "replay": "map01_nowy_1064_20261115_094757_544489"
+  },
+  {
+    "version": "new",
+    "seed": 1065,
+    "engine_seed": 120657730,
+    "outcome": "exit",
+    "tics": 1355,
+    "replay": "map01_nowy_1065_20261115_094801_554409"
+  },
+  {
+    "version": "new",
+    "seed": 1066,
+    "engine_seed": 1533379431,
+    "outcome": "exit",
+    "tics": 1651,
+    "replay": "map01_nowy_1066_20261115_094805_250345"
+  },
+  {
+    "version": "new",
+    "seed": 1067,
+    "engine_seed": 397097497,
+    "outcome": "exit",
+    "tics": 1531,
+    "replay": "map01_nowy_1067_20261115_094809_669950"
+  },
+  {
+    "version": "new",
+    "seed": 1069,
+    "engine_seed": 1242278116,
+    "outcome": "exit",
+    "tics": 1897,
+    "replay": "map01_nowy_1069_20261115_094813_819210"
+  },
+  {
+    "version": "new",
+    "seed": 1070,
+    "engine_seed": 894990741,
+    "outcome": "exit",
+    "tics": 2313,
+    "replay": "map01_nowy_1070_20261115_094818_682411"
+  },
+  {
+    "version": "new",
+    "seed": 1071,
+    "engine_seed": 1870471739,
+    "outcome": "exit",
+    "tics": 1793,
+    "replay": "map01_nowy_1071_20261115_094824_261021"
+  },
+  {
+    "version": "new",
+    "seed": 1073,
+    "engine_seed": 1339237754,
+    "outcome": "exit",
+    "tics": 2189,
+    "replay": "map01_nowy_1073_20261115_094828_891792"
+  },
+  {
+    "version": "new",
+    "seed": 1078,
+    "engine_seed": 1053623175,
+    "outcome": "exit",
+    "tics": 1623,
+    "replay": "map01_nowy_1078_20261115_094834_241130"
+  },
+  {
+    "version": "new",
+    "seed": 1079,
+    "engine_seed": 1504304323,
+    "outcome": "exit",
+    "tics": 2509,
+    "replay": "map01_nowy_1079_20261115_094838_580139"
+  },
+  {
+    "version": "new",
+    "seed": 1080,
+    "engine_seed": 1902284613,
+    "outcome": "exit",
+    "tics": 1775,
+    "replay": "map01_nowy_1080_20261115_094844_606877"
+  },
+  {
+    "version": "new",
+    "seed": 1081,
+    "engine_seed": 1533173152,
+    "outcome": "exit",
+    "tics": 1547,
+    "replay": "map01_nowy_1081_20261115_094849_330152"
+  },
+  {
+    "version": "new",
+    "seed": 1082,
+    "engine_seed": 2125482161,
+    "outcome": "exit",
+    "tics": 2669,
+    "replay": "map01_nowy_1082_20261115_094853_509687"
+  },
+  {
+    "version": "new",
+    "seed": 1083,
+    "engine_seed": 793555815,
+    "outcome": "exit",
+    "tics": 1597,
+    "replay": "map01_nowy_1083_20261115_094900_392234"
+  },
+  {
+    "version": "new",
+    "seed": 1084,
+    "engine_seed": 518252536,
+    "outcome": "exit",
+    "tics": 1383,
+    "replay": "map01_nowy_1084_20261115_094904_728363"
+  },
+  {
+    "version": "new",
+    "seed": 1085,
+    "engine_seed": 1561912038,
+    "outcome": "exit",
+    "tics": 1487,
+    "replay": "map01_nowy_1085_20261115_094908_596891"
+  },
+  {
+    "version": "new",
+    "seed": 1087,
+    "engine_seed": 706637083,
+    "outcome": "exit",
+    "tics": 2291,
+    "replay": "map01_nowy_1087_20261115_094912_639081"
+  },
+  {
+    "version": "new",
+    "seed": 1088,
+    "engine_seed": 1551256537,
+    "outcome": "exit",
+    "tics": 1667,
+    "replay": "map01_nowy_1088_20261115_094918_577246"
+  },
+  {
+    "version": "new",
+    "seed": 1090,
+    "engine_seed": 675111974,
+    "outcome": "exit",
+    "tics": 1741,
+    "replay": "map01_nowy_1090_20261115_094923_119509"
+  },
+  {
+    "version": "new",
+    "seed": 1091,
+    "engine_seed": 1409198277,
+    "outcome": "exit",
+    "tics": 2005,
+    "replay": "map01_nowy_1091_20261115_094927_907097"
+  },
+  {
+    "version": "new",
+    "seed": 1092,
+    "engine_seed": 519982040,
+    "outcome": "exit",
+    "tics": 1645,
+    "replay": "map01_nowy_1092_20261115_094933_255044"
+  },
+  {
+    "version": "new",
+    "seed": 1093,
+    "engine_seed": 1981726758,
+    "outcome": "exit",
+    "tics": 2219,
+    "replay": "map01_nowy_1093_20261115_094937_787003"
+  },
+  {
+    "version": "new",
+    "seed": 1095,
+    "engine_seed": 1896455201,
+    "outcome": "exit",
+    "tics": 2663,
+    "replay": "map01_nowy_1095_20261115_094943_404580"
+  },
+  {
+    "version": "new",
+    "seed": 1096,
+    "engine_seed": 1830850368,
+    "outcome": "exit",
+    "tics": 1483,
+    "replay": "map01_nowy_1096_20261115_094950_036663"
+  },
+  {
+    "version": "new",
+    "seed": 1098,
+    "engine_seed": 2072950452,
+    "outcome": "exit",
+    "tics": 2327,
+    "replay": "map01_nowy_1098_20261115_094954_124212"
+  },
+  {
+    "version": "new",
+    "seed": 1099,
+    "engine_seed": 2005298700,
+    "outcome": "exit",
+    "tics": 1443,
+    "replay": "map01_nowy_1099_20261115_095000_168796"
+  },
+  {
+    "version": "new",
+    "seed": 1100,
+    "engine_seed": 740638086,
+    "outcome": "exit",
+    "tics": 1525,
+    "replay": "map01_nowy_1100_20261115_095004_150946"
+  },
+  {
+    "version": "new",
+    "seed": 1102,
+    "engine_seed": 1310778925,
+    "outcome": "exit",
+    "tics": 1847,
+    "replay": "map01_nowy_1102_20261115_095008_329644"
+  },
+  {
+    "version": "new",
+    "seed": 1103,
+    "engine_seed": 571816213,
+    "outcome": "exit",
+    "tics": 1633,
+    "replay": "map01_nowy_1103_20261115_095013_197156"
+  },
+  {
+    "version": "new",
+    "seed": 1106,
+    "engine_seed": 2097646909,
+    "outcome": "exit",
+    "tics": 1475,
+    "replay": "map01_nowy_1106_20261115_095017_595203"
+  },
+  {
+    "version": "new",
+    "seed": 1140,
+    "engine_seed": 1141466004,
+    "outcome": "exit",
+    "tics": 2025,
+    "replay": "map01_nowy_1140_20261115_095021_761566"
+  },
+  {
+    "version": "new",
+    "seed": 1141,
+    "engine_seed": 1009531300,
+    "outcome": "exit",
+    "tics": 1593,
+    "replay": "map01_nowy_1141_20261115_095027_096630"
+  },
+  {
+    "version": "new",
+    "seed": 1143,
+    "engine_seed": 305898563,
+    "outcome": "exit",
+    "tics": 2411,
+    "replay": "map01_nowy_1143_20261115_095031_447755"
+  },
+  {
+    "version": "new",
+    "seed": 1144,
+    "engine_seed": 1745491362,
+    "outcome": "exit",
+    "tics": 1257,
+    "replay": "map01_nowy_1144_20261115_095037_540698"
+  },
+  {
+    "version": "new",
+    "seed": 1146,
+    "engine_seed": 4222257,
+    "outcome": "exit",
+    "tics": 1777,
+    "replay": "map01_nowy_1146_20261115_095041_165735"
+  },
+  {
+    "version": "new",
+    "seed": 1147,
+    "engine_seed": 1749925443,
+    "outcome": "exit",
+    "tics": 1749,
+    "replay": "map01_nowy_1147_20261115_095045_936316"
+  },
+  {
+    "version": "new",
+    "seed": 1148,
+    "engine_seed": 563426249,
+    "outcome": "exit",
+    "tics": 1763,
+    "replay": "map01_nowy_1148_20261115_095050_573207"
+  },
+  {
+    "version": "new",
+    "seed": 1149,
+    "engine_seed": 668753617,
+    "outcome": "exit",
+    "tics": 2005,
+    "replay": "map01_nowy_1149_20261115_095055_160090"
+  },
+  {
+    "version": "new",
+    "seed": 1154,
+    "engine_seed": 541829633,
+    "outcome": "exit",
+    "tics": 1199,
+    "replay": "map01_nowy_1154_20261115_095100_339114"
+  },
+  {
+    "version": "new",
+    "seed": 1157,
+    "engine_seed": 847917110,
+    "outcome": "exit",
+    "tics": 1847,
+    "replay": "map01_nowy_1157_20261115_095103_834309"
+  },
+  {
+    "version": "new",
+    "seed": 1159,
+    "engine_seed": 572845983,
+    "outcome": "exit",
+    "tics": 1845,
+    "replay": "map01_nowy_1159_20261115_095108_626310"
+  },
+  {
+    "version": "new",
+    "seed": 1160,
+    "engine_seed": 53202293,
+    "outcome": "exit",
+    "tics": 1749,
+    "replay": "map01_nowy_1160_20261115_095113_570938"
+  },
+  {
+    "version": "new",
+    "seed": 1161,
+    "engine_seed": 1997098160,
+    "outcome": "exit",
+    "tics": 2267,
+    "replay": "map01_nowy_1161_20261115_095118_172505"
+  },
+  {
+    "version": "new",
+    "seed": 1163,
+    "engine_seed": 1698152174,
+    "outcome": "exit",
+    "tics": 1443,
+    "replay": "map01_nowy_1163_20261115_095123_982183"
+  },
+  {
+    "version": "new",
+    "seed": 1164,
+    "engine_seed": 175413186,
+    "outcome": "exit",
+    "tics": 1569,
+    "replay": "map01_nowy_1164_20261115_095128_008075"
+  },
+  {
+    "version": "new",
+    "seed": 1165,
+    "engine_seed": 1412843037,
+    "outcome": "exit",
+    "tics": 1693,
+    "replay": "map01_nowy_1165_20261115_095132_291402"
+  },
+  {
+    "version": "new",
+    "seed": 1166,
+    "engine_seed": 1985442163,
+    "outcome": "exit",
+    "tics": 1451,
+    "replay": "map01_nowy_1166_20261115_095136_839505"
+  },
+  {
+    "version": "new",
+    "seed": 1167,
+    "engine_seed": 1535360052,
+    "outcome": "exit",
+    "tics": 1331,
+    "replay": "map01_nowy_1167_20261115_095140_783571"
+  },
+  {
+    "version": "new",
+    "seed": 1168,
+    "engine_seed": 1792125761,
+    "outcome": "exit",
+    "tics": 1681,
+    "replay": "map01_nowy_1168_20261115_095144_615889"
+  },
+  {
+    "version": "new",
+    "seed": 1173,
+    "engine_seed": 1818843613,
+    "outcome": "exit",
+    "tics": 1393,
+    "replay": "map01_nowy_1173_20261115_095149_081670"
+  }
+]

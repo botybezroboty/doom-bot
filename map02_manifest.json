@@ -1,0 +1,12 @@
+{
+  "map": "MAP02",
+  "skill": 3,
+  "tic_limit": 3500,
+  "start": "new game, no equipment from MAP01",
+  "bot_sha256": "e72ca8227bf23d8108c746b30cfe34eb237ade7b8f98f8c866ff93ee3d624a5d",
+  "config_changes": {
+    "game.set_doom_map('MAP01')": "game.set_doom_map('MAP02')",
+    "f'map01_{version}_": "f'map02_{version}_"
+  },
+  "vizdoom": "1.3.2"
+}

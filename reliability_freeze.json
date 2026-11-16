@@ -1,0 +1,20 @@
+{
+  "created": "2026-11-15T10:02:02.292567+01:00",
+  "code_after": "2bf2a83",
+  "code_before": "bf1411a",
+  "vizdoom": "1.3.2",
+  "numpy": "2.5.4",
+  "freedoom_sha256": "a8772e088847032510d97ba2312406a6998f21cbab44d4ff10696faa9c0ecd4b",
+  "skill": 3,
+  "tic_limit": 3500,
+  "sha256": {
+    "bot.py": "b74dc816b4c441a266aa8c6fd1003db11bb2f77113ff22a41d3207c334d130af",
+    "bot_before_reliability.py": "7288daeaefeaafa9c533bd251d1c801ae98ca8be86d04f216c889cd346dffb78",
+    "seeds_reliability_heldout.json": "cd4b70d0943dde0004122138530fa404a4d04611ae4ac1a1bc06bb8f8b5fcbc1",
+    "comparison_navigation.csv": "297b315d05a95297b58f11756c47f0185d5e0034577568e1eaafcd674c8bdf53",
+    "goal.md": "c4f624f878a4249a6801c16d210a7b0ce26b6140b805e75cf2fbd2a97612576a",
+    "compare_reliability.py": "8fb984f71fb0e4a8d76e3308ec6a020cd3894a04d2a45ae98718857fd8b55b2a"
+  },
+  "procedure": "Run the 100 held-out seeds only after the 80 known ones are confirmed. After reading the held-out results, do not change the bot because of them. Known: the kept trials of the old version and stage 3 of the new one, every exit replayed again. The 20 extra earlier seeds serve only as a development regression check.",
+  "note": "The sha256 values were recomputed on 2026-11-16, after the files were translated to English (names, comments, strings; the bot plays the same games to the tic). They are the hashes of the files as a Windows clone checks them out (CRLF line endings). The agent's original freeze, with the Polish file names, is in the tag etap-8."
+}
