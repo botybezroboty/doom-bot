@@ -169,7 +169,7 @@ Tagi po kolei: `etap-1`, `etap-2`, `etap-3`, `krok-3b`, `krok-3d`, `etap-4`, `kr
 2. Na MAP02 nie dochodzi do wyjścia ani razu, bo jego trasa to lista punktów z MAP01.
 3. Własny pomysł: inny poziom, inna gra, inne zasady.
 
-Poprawki są mile widziane. Zrób fork, wprowadź zmianę i wyślij pull request. Trzy prośby:
+Poprawki są mile widziane. Zrób fork, wprowadź zmianę i wyślij pull request. Jak zmierzyć zmianę i co wpisać w pull requeście, jest w [CONTRIBUTING.md](CONTRIBUTING.md). Trzy prośby:
 
 - trzymaj się zasad z `cel.md` albo napisz wprost, którą zmieniasz i dlaczego,
 - podaj wynik na seedach, na których niczego nie stroiłeś, obok wyniku obecnej wersji na tych samych seedach,

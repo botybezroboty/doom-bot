@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Pytanie albo coś nie działa
+    url: https://discord.gg/6QCNXAGntW
+    about: Najszybciej pomożemy na Discordzie, w kanale pomoc.
+  - name: Własny bot albo pomysł na bota
+    url: https://discord.gg/6QCNXAGntW
+    about: Pokaż go na Discordzie, w kanale wasze-boty albo pomysły-na-boty.

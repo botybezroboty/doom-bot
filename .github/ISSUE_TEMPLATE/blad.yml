@@ -1,0 +1,51 @@
+name: Błąd w repozytorium
+description: Skrypt się wywala albo instrukcja z README nie działa tak, jak opisuje.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Pytania i pomoc przy instalacji szybciej załatwisz na Discordzie, w kanale `pomoc`.
+        Tutaj zgłaszaj błędy w samym repozytorium.
+  - type: textarea
+    id: polecenie
+    attributes:
+      label: Co wpisałeś
+      description: Polecenie dokładnie tak, jak je wpisałeś.
+      render: powershell
+    validations:
+      required: true
+  - type: textarea
+    id: wynik
+    attributes:
+      label: Co się stało
+      description: Cały komunikat błędu wklejony jako tekst, nie zdjęcie.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: oczekiwane
+    attributes:
+      label: Co miało się stać
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: System i wersja Pythona
+      placeholder: Windows 11, Python 3.12.10
+    validations:
+      required: true
+  - type: input
+    id: sciezka
+    attributes:
+      label: Folder z projektem
+      description: Ma być krótki i bez spacji, na przykład C:\doom-bot.
+    validations:
+      required: true
+  - type: checkboxes
+    id: przeczytane
+    attributes:
+      label: Zanim wyślesz
+      options:
+        - label: Przeczytałem część „Gdy coś nie działa” w README.
+          required: true
