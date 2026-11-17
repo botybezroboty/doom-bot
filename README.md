@@ -2,7 +2,9 @@
 
 Skryptowy bot, który przechodzi pierwszy poziom gry Freedoom 2 (MAP01) przez bibliotekę ViZDoom. Cały kod napisał agent AI na nagraniu do filmu. To repozytorium jest stanem projektu z końca filmu razem z całą jego historią, z jedną zmianą: po filmie przetłumaczyliśmy na angielski nazwy plików, kod i komentarze, bez zmiany działania (te same seedy dają te same gry co do tiku). Stan z filmu, z polskimi nazwami, jest pod tagiem `etap-8`, a tabela starych i nowych nazw w [prompts/README.md](prompts/README.md).
 
-Pytania, własne boty i pomysły na kolejne: [Discord kanału Boty bez roboty](https://discord.gg/6QCNXAGntW). Link do filmu dodamy w dniu premiery.
+![Bot z filmu gra na MAP01, seed 1019](docs/bot-map01.gif)
+
+Film, w którym ten bot powstaje krok po kroku: https://youtu.be/BkiKcZ9qbKg. Pytania, własne boty i pomysły na kolejne: [Discord kanału Boty bez roboty](https://discord.gg/6QCNXAGntW).
 
 ## Co ten bot umie
 
