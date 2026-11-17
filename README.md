@@ -4,7 +4,7 @@ Skryptowy bot, który przechodzi pierwszy poziom gry Freedoom 2 (MAP01) przez bi
 
 ![Bot z filmu gra na MAP01, seed 1019](docs/bot-map01.gif)
 
-Pytania, własne boty i pomysły na kolejne: [Discord kanału Boty bez roboty](https://discord.gg/6QCNXAGntW). Link do filmu dodamy w dniu premiery.
+Film, w którym ten bot powstaje krok po kroku: https://youtu.be/BkiKcZ9qbKg. Pytania, własne boty i pomysły na kolejne: [Discord kanału Boty bez roboty](https://discord.gg/6QCNXAGntW).
 
 ## Co ten bot umie
 
